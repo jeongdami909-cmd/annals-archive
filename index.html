@@ -3,80 +3,84 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>George VI — ANNALS</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+Garamond:wght@300;400;600&family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet">
-
+  <title>영국 연합 왕국의 형성 — ANNALS</title>
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Nanum+Myeongjo:wght@400;700&family=Cinzel:wght@400;600;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
   <style>
-    body {
-      margin:0;
-      background:#f2ead8;
-      color:#12100e;
-      font-family:'Nanum Myeongjo', serif;
-      line-height:1.8;
+    :root {
+      --ink: #12100e; --parchment: #f2ead8; --aged: #e8dcc4;
+      --gold: #b8922a; --gold-dim: #8a6d1f; --rust: #8b3a2a;
+      --olive: #4a5240; --muted: #7a6e5e; --warm-white: #faf6ee;
     }
-
-    .container {
-      max-width:900px;
-      margin:0 auto;
-      padding:80px 24px;
-    }
-
-    h1 {
-      font-family:'Cinzel', serif;
-      font-size:48px;
-      margin-bottom:10px;
-    }
-
-    .subtitle {
-      color:#7a6e5e;
-      margin-bottom:40px;
-    }
-
-    p {
-      margin-bottom:20px;
-      font-size:18px;
-    }
-
-    a {
-      color:#b8922a;
-      text-decoration:none;
-    }
-
-    .back {
-      display:inline-block;
-      margin-top:40px;
-      border:1px solid #b8922a;
-      padding:8px 16px;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--warm-white); color: var(--ink); font-family: 'Nanum Myeongjo', serif; line-height: 1.6; }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 24px 60px; background: rgba(250,246,238,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(184,146,42,0.2); }
+    .nav-logo { font-family: 'Cinzel', serif; font-size: 22px; font-weight: 900; letter-spacing: 8px; color: var(--ink); text-decoration: none; }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links a { font-family: 'Cormorant Garamond', serif; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.3s; }
+    .article-header { padding: 160px 60px 80px; text-align: center; background: var(--parchment); border-bottom: 1px solid rgba(184,146,42,0.2); }
+    .article-meta { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 4px; color: var(--gold); margin-bottom: 20px; text-transform: uppercase; }
+    .article-main-title { font-family: 'Nanum Myeongjo', serif; font-size: clamp(32px, 5vw, 56px); font-weight: 700; color: var(--ink); margin-bottom: 24px; line-height: 1.3; }
+    .article-subtitle { font-family: 'IM Fell English', serif; font-style: italic; font-size: 22px; color: var(--muted); max-width: 600px; margin: 0 auto; }
+    .article-content-wrapper { max-width: 800px; margin: 0 auto; padding: 80px 40px; }
+    .article-content h2 { font-family: 'Cinzel', serif; font-size: 28px; color: var(--ink); margin: 60px 0 20px; display: flex; align-items: center; gap: 15px; }
+    .article-content h2::before { content: '✦'; color: var(--gold); font-size: 18px; }
+    .article-content p { font-size: 17px; line-height: 2.2; color: #333; margin-bottom: 30px; text-align: justify; }
+    .article-content .dropcap::first-letter { float: left; font-family: 'Cinzel', serif; font-size: 70px; line-height: 60px; padding-top: 4px; padding-right: 12px; padding-left: 3px; color: var(--rust); }
+    .timeline-box { background: var(--parchment); border: 1px solid rgba(184,146,42,0.3); padding: 40px; margin: 40px 0; }
+    .timeline-box h3 { font-family: 'Nanum Myeongjo', serif; font-size: 20px; color: var(--rust); margin-bottom: 15px; }
+    footer { background: var(--ink); padding: 60px; text-align: center; color: var(--parchment); margin-top: 60px; }
+    .footer-bottom { background: #0a0806; padding: 20px; text-align: center; border-top: 1px solid rgba(184,146,42,0.1); font-size: 12px; color: rgba(242,234,216,0.25); }
+    @media (max-width: 900px) { nav { padding: 20px 24px; } .nav-links { display: none; } .article-header { padding: 120px 24px 60px; } .article-content-wrapper { padding: 40px 24px; } }
   </style>
 </head>
-
 <body>
+  <nav>
+    <a href="index.html" class="nav-logo">ANN<span>A</span>LS</a>
+    <ul class="nav-links">
+      <li><a href="archive.html">인물 목록</a></li>
+      <li><a href="archive.html">지역별</a></li>
+    </ul>
+  </nav>
 
-<div class="container">
+  <header class="article-header">
+    <p class="article-meta">World History · Archive</p>
+    <h1 class="article-main-title">대브리튼 연합 왕국의 형성</h1>
+    <p class="article-subtitle">잉글랜드, 웨일스, 스코틀랜드, 그리고 아일랜드의 통치 병합사</p>
+  </header>
 
-<h1>George VI</h1>
-<div class="subtitle">조지 6세 · 영국 국왕 (1895–1952)</div>
+  <main class="article-content-wrapper">
+    <article class="article-content">
+      <p class="dropcap">오</p><p>늘날 우리가 '영국'이라 부르는 국가의 정식 명칭은 <strong>그레이트브리튼 북아일랜드 연합 왕국(United Kingdom of Great Britain and Northern Ireland)</strong>입니다. 이 긴 이름표에는 섬나라 브리튼 제도가 겪어온 수백 년간의 정복과 병합, 그리고 피비린내 나는 투쟁의 역사가 고스란히 담겨 있습니다. 브리튼 제도는 결코 단일한 민족이 세운 하나의 국가가 아니었으며, 각기 다른 정체성을 가진 네 개의 지역이 잉글랜드를 중심으로 복잡하게 얽히며 통일되어 갔습니다.</p>
 
-<p>
-왕이 될 운명이 아니었던 남자, 그러나 역사가 그를 선택했다.
-조지 6세는 형 에드워드 8세의 퇴위 이후 예상치 못하게 왕위에 올랐다.
-</p>
+      <h2>웨일스의 병합 (13세기 ~ 16세기)</h2>
+      <p>가장 먼저 잉글랜드의 지배하에 놓인 곳은 켈트족의 후예들이 살던 웨일스였습니다. 분립된 소국들로 이루어져 있던 웨일스는 13세기 후반, 잉글랜드의 강력한 군주 <strong>에드워드 1세(Edward I)</strong>의 대대적인 침공을 받아 정복되었습니다. 에드워드 1세는 웨일스의 반란을 억제하기 위해 거대한 성들을 축조했고, 자신의 장남에게 '웨일스 공(Prince of Wales)'이라는 작위를 수여했습니다. 이는 오늘날까지도 영국 왕위 계승권자에게 부여되는 칭호로 이어지고 있습니다.</p>
+      <p>웨일스는 오랫동안 정치적 종속 상태에 머물다, 16세기 <strong>헨리 8세(Henry VIII)</strong> 시기에 제정된 '웨일스 병합법(Laws in Wales Acts 1535 and 1542)'을 통해 잉글랜드의 법체계와 행정 구역 안으로 완전히 통합되었습니다.</p>
 
-<p>
-심각한 말더듬이를 극복하며 그는 국민 앞에 서야 했고,
-제2차 세계대전 동안 런던을 떠나지 않고 국민과 함께 남았다.
-그의 용기와 인간적인 모습은 영국 왕실의 신뢰를 회복시키는 데 중요한 역할을 했다.
-</p>
+      <h2>스코틀랜드의 동군연합과 의회 통합 (1603 ~ 1707)</h2>
+      <p>북부의 스코틀랜드는 잉글랜드와 지속적인 전쟁을 벌이면서도 독립 왕국으로서의 지위를 굳건히 지켰습니다. 영화 '브레이브하트'로 잘 알려진 윌리엄 월리스와 로버트 1세의 독립 전쟁은 스코틀랜드의 끈질긴 저항 정신을 보여줍니다.</p>
+      <p>두 국가의 운명이 극적으로 교차한 것은 1603년이었습니다. 잉글랜드의 엘리자베스 1세가 후사 없이 서거하자, 스코틀랜드의 국왕이었던 <strong>제임스 6세</strong>가 잉글랜드의 왕위(제임스 1세)를 물려받게 되었습니다. 이로써 두 나라는 각자의 의회와 법을 유지하면서 한 명의 군주를 모시는 <strong>동군연합(Union of the Crowns)</strong> 형태를 이루게 됩니다.</p>
+      <p>이후 약 100년이 지난 1707년, 경제적 파산 위기에 처한 스코틀랜드는 잉글랜드와의 <strong>연합법(Acts of Union 1707)</strong>을 통과시킵니다. 이 법안으로 두 나라의 의회가 런던 웨스트민스터로 통합되었고, 마침내 <strong>그레이트브리튼 왕국(Kingdom of Great Britain)</strong>이 탄생했습니다.</p>
 
-<p>
-그의 이야기는 영화 <킹스 스피치>의 실제 배경이 되었다.
-</p>
+      <div class="timeline-box">
+        <h3>✦ 핵심 병합 연표</h3>
+        <p>
+          <strong>1536, 1542</strong> — 웨일스 병합법 제정 (잉글랜드에 완전 흡수)<br>
+          <strong>1603</strong> — 잉글랜드-스코틀랜드 동군연합 (Union of the Crowns)<br>
+          <strong>1707</strong> — 그레이트브리튼 연합 왕국 성립 (스코틀랜드 의회 통합)<br>
+          <strong>1801</strong> — 대브리튼 아일랜드 연합 왕국 성립 (아일랜드 병합)<br>
+          <strong>1922</strong> — 아일랜드 자유국 독립 (북아일랜드만 영국 잔류)
+        </p>
+      </div>
+    </article>
+  </main>
 
-<a href="index.html" class="back">← 메인으로 돌아가기</a>
-
-</div>
-
+  <footer>
+    <div class="logo" style="font-family: 'Cinzel', serif; font-size: 24px; font-weight: 900; letter-spacing: 8px;">ANN<span style="color: var(--gold);">A</span>LS</div>
+  </footer>
+  <div class="footer-bottom">
+    <p>© 2026 ANNALS. All rights reserved.</p>
+  </div>
 </body>
 </html>
