@@ -28,7 +28,6 @@
       color: var(--ink);
       font-family: 'Nanum Myeongjo', serif;
       line-height: 1.6;
-      /* 모바일에서 글씨 잘림 방지 */
       word-break: keep-all; 
       overflow-wrap: break-word;
     }
@@ -56,15 +55,9 @@
       text-decoration: none;
       cursor: pointer;
     }
-
     .nav-logo span { color: var(--gold); }
 
-    .nav-links {
-      display: flex;
-      gap: 40px;
-      list-style: none;
-    }
-
+    .nav-links { display: flex; gap: 40px; list-style: none; }
     .nav-links a {
       font-family: 'Cormorant Garamond', serif;
       font-size: 15px;
@@ -75,7 +68,6 @@
       transition: 0.3s;
       cursor: pointer;
     }
-
     .nav-links a:hover { color: var(--gold); }
 
     /* HEADER */
@@ -104,10 +96,11 @@
     .article-subtitle {
       font-family: 'IM Fell English', serif;
       font-style: italic;
-      font-size: 22px;
+      font-size: 20px;
       color: var(--muted);
-      max-width: 600px;
+      max-width: 650px;
       margin: 0 auto;
+      line-height: 1.8;
     }
 
     /* CONTENT */
@@ -125,12 +118,7 @@
       align-items: center;
       gap: 15px;
     }
-
-    .article-content h2::before {
-      content: '✦';
-      color: var(--gold);
-      font-size: 18px;
-    }
+    .article-content h2::before { content: '✦'; color: var(--gold); font-size: 18px; }
 
     .article-content p {
       font-size: 17px;
@@ -159,7 +147,7 @@
       color: var(--olive);
     }
 
-    /* 사진 스타일 추가 */
+    /* PHOTO FRAME */
     .photo-frame {
       background: #fff;
       padding: 15px 15px 40px 15px;
@@ -170,14 +158,8 @@
       transform: rotate(-2deg);
       transition: transform 0.3s;
     }
-    .photo-frame:hover {
-      transform: rotate(0deg) scale(1.02);
-    }
-    .photo-frame img {
-      width: 100%;
-      display: block;
-      filter: sepia(0.2) contrast(1.1);
-    }
+    .photo-frame:hover { transform: rotate(0deg) scale(1.02); }
+    .photo-frame img { width: 100%; display: block; filter: sepia(0.2) contrast(1.1); }
     .photo-frame .caption {
       font-family: 'IM Fell English', serif;
       font-style: italic;
@@ -185,11 +167,10 @@
       margin-top: 15px;
       font-size: 16px;
       margin-bottom: 0;
-      text-align: center;
     }
 
-    /* HOME VIEW SPECIFIC STYLES */
-    #home-view .article-header { background: transparent; border-bottom: none; padding-bottom: 40px; }
+    /* HOME VIEW */
+    #home .article-header { background: transparent; border-bottom: none; padding-bottom: 40px; }
     .archive-list { display: flex; flex-direction: column; gap: 30px; }
     .archive-card {
       background: var(--warm-white);
@@ -225,7 +206,6 @@
       color: var(--parchment);
       margin-top: 60px;
     }
-
     .footer-bottom {
       background: #0a0806;
       padding: 20px;
@@ -235,24 +215,19 @@
       color: rgba(242,234,216,0.25);
     }
 
-    /* 모바일 환경 최적화 수정 */
     @media (max-width: 900px) {
-      /* 상단 메뉴가 잘리지 않도록 세로로 배치 */
-      nav { 
-        flex-direction: column; 
-        gap: 15px; 
-        padding: 15px 24px; 
-      }
-      .nav-links { 
-        display: flex; 
-        gap: 20px; 
-      }
+      nav { flex-direction: column; gap: 15px; padding: 15px 24px; }
+      .nav-links { display: flex; gap: 20px; }
       .article-header { padding: 140px 24px 40px; }
       .article-content-wrapper { padding: 40px 24px; }
       .archive-card { padding: 30px 20px; }
       .archive-card::after { display: none; }
       .photo-frame { transform: rotate(0deg); max-width: 100%; }
     }
+
+    /* 각 화면들을 제어하기 위한 클래스 */
+    .page-view { display: none; }
+    .page-view.active { display: block; }
   </style>
 </head>
 
@@ -261,36 +236,48 @@
   <nav>
     <a onclick="showView('home')" class="nav-logo">ANN<span>A</span>LS</a>
     <ul class="nav-links">
-      <li><a onclick="showView('article')">세계사 공부</a></li>
+      <li><a onclick="showView('home')">세계사 공부</a></li>
       <li><a onclick="showView('home')">메인으로</a></li>
     </ul>
   </nav>
 
-  <div id="home-view">
+  <div id="home" class="page-view active">
     <header class="article-header">
       <p class="article-meta">Historical Archive</p>
       <h1 class="article-main-title">ANNALS</h1>
-      <p class="article-subtitle">역사 속 인물들의 삶을 깊이 있게 기록하는 아카이브</p>
+      <p class="article-subtitle">역사 속 인물들의 삶과 권력의 흐름을 깊이 있게 기록하는 아카이브</p>
     </header>
 
     <main class="article-content-wrapper">
       <div class="archive-list">
-        <div class="archive-card" onclick="showView('article')">
+        
+        <div class="archive-card" onclick="showView('george')">
           <p class="article-meta">European History</p>
           <h2 style="font-family:'Cinzel', serif; font-size:28px; margin: 10px 0;">조지 6세</h2>
           <p style="color:var(--muted); font-size:16px;">왕이 될 운명이 아니었던 남자, 말더듬이를 극복한 인간적인 군주</p>
         </div>
+
+        <div class="archive-card" onclick="showView('ww1')">
+          <p class="article-meta">Global Conflict</p>
+          <h2 style="font-family:'Cinzel', serif; font-size:28px; margin: 10px 0;">제1차 세계대전</h2>
+          <p style="color:var(--muted); font-size:16px;">사라예보의 총성, 제국들의 붕괴와 참호 속에서 스러진 구시대의 환상</p>
+        </div>
+
+        <div class="archive-card" onclick="showView('ww2')">
+          <p class="article-meta">Global Conflict</p>
+          <h2 style="font-family:'Cinzel', serif; font-size:28px; margin: 10px 0;">제2차 세계대전</h2>
+          <p style="color:var(--muted); font-size:16px;">인류 역사상 가장 거대하고 파괴적인 총력전, 그리고 새로운 세계 질서의 서막</p>
+        </div>
+
       </div>
     </main>
   </div>
 
-  <div id="article-view" style="display: none;">
+  <div id="george" class="page-view">
     <header class="article-header">
       <p class="article-meta">European History · Archive</p>
       <h1 class="article-main-title">조지 6세</h1>
-      <p class="article-subtitle">
-        왕이 될 운명이 아니었던 남자, 말더듬이를 극복한 인간적인 군주
-      </p>
+      <p class="article-subtitle">왕이 될 운명이 아니었던 남자, 말더듬이를 극복한 인간적인 군주</p>
     </header>
 
     <main class="article-content-wrapper">
@@ -301,41 +288,119 @@
           그러나 형인 에드워드 8세가 사랑을 위해 왕위를 포기하는 사상 초유의 사건(세기의 로맨스)이 벌어지며 
           동생이었던 그가 갑작스럽게 왕위에 오르게 됩니다.
         </p>
-
         <h2>말더듬이를 극복한 용기</h2>
         <p>
           심한 말더듬이 증상이 있었습니다. 라디오 방송이 중요해지던 시대에 대중 연설은 그에게 큰 고통이었지만, 
           언어 치료사의 도움을 받아 이를 극복해 나갔습니다. 이 과정이 바로 영화 '킹스 스피치'의 핵심 내용입니다.
         </p>
-
         <div class="quote-box">
-          <p>
-            "이제야 이웃들(런던 시민들)의 얼굴을 똑바로 볼 수 있겠다."
-          </p>
-          <p style="text-align:right; font-size:14px; margin-top:10px;">
-            - 폭격당한 버킹엄 궁전을 바라보며
-          </p>
+          <p>"이제야 이웃들(런던 시민들)의 얼굴을 똑바로 볼 수 있겠다."</p>
+          <p style="text-align:right; font-size:14px; margin-top:10px;">- 폭격당한 버킹엄 궁전을 바라보며</p>
         </div>
-
         <h2>제2차 세계대전의 정신적 지주</h2>
         <p>
           제2차 세계대전 당시 런던이 독일군의 폭격을 받을 때도 피난을 가지 않고 
           버킹엄 궁전에 남아 국민들과 고통을 함께했습니다. 
           매주 라디오 연설을 통해 국민들에게 용기를 북돋워 주며 승리의 정신적 지주 역할을 했습니다.
         </p>
-
         <h2>엘리자베스 2세의 아버지</h2>
         <p>
           고(故) 엘리자베스 2세 여왕의 아버지입니다. 1925년 웸블리 전시회에서 
           미끄럼틀을 타던 천진난만한 청년은, 훗날 56세의 나이로 서거할 때까지 
           영국을 지탱하는 가장 거대한 기둥이 되었습니다.
         </p>
-
         <div class="photo-frame">
           <img src="Notes_260222_055144_32f.jpg" alt="조지 6세 미끄럼틀 사진">
           <p class="caption">Wembley Exhibition, 1925</p>
         </div>
+      </article>
+    </main>
+  </div>
 
+  <div id="ww1" class="page-view">
+    <header class="article-header">
+      <p class="article-meta">Global Conflict · Archive</p>
+      <h1 class="article-main-title">제1차 세계대전</h1>
+      <p class="article-subtitle">사라예보의 총성, 제국들의 붕괴와 참호 속에서 스러진 구시대의 환상 (1914-1918)</p>
+    </header>
+
+    <main class="article-content-wrapper">
+      <article class="article-content">
+        <p class="dropcap">
+          1914년 6월 28일, 발칸 반도의 사라예보에서 울려 퍼진 두 발의 총성은 
+          복잡하게 얽혀 있던 유럽의 동맹 체제를 단숨에 연쇄 폭발로 이끌었습니다. 
+          오스트리아-헝가리 제국의 황태자 부부 암살 사건은, 수십 년간 제국주의 열강들이 
+          조용히 쌓아오던 화약고에 불을 붙인 치명적인 성냥이었습니다.
+        </p>
+        
+        <div class="quote-box">
+          <p>"전등불이 유럽 전역에서 꺼지고 있다. 우리는 우리 생애에 그것이 다시 켜지는 것을 보지 못할 것이다."</p>
+          <p style="text-align:right; font-size:14px; margin-top:10px;">- 에드워드 그레이 (영국 외무장관, 1914년 전쟁 발발 직전)</p>
+        </div>
+
+        <h2>참호전: 낭만의 종언과 산업화된 죽음</h2>
+        <p>
+          당시 유럽의 청년들은 '크리스마스 전에는 끝날 것'이라는 낭만적인 환상을 품고 전선으로 향했습니다. 
+          그러나 그들을 기다린 것은 기관총, 독가스, 탱크로 무장한 차가운 산업화의 결과물이었습니다. 
+          서부 전선의 군인들은 축축하고 쥐가 들끓는 참호 속에 갇혀 수십만 명이 전사하면서도 
+          불과 몇 백 미터의 땅을 빼앗기 위해 무의미한 돌격을 반복해야 했습니다.
+        </p>
+        
+        <h2>권력 구조의 재편과 제국들의 몰락</h2>
+        <p>
+          1918년, 4년이 넘는 끔찍한 소모전 끝에 동맹국이 항복하며 전쟁은 막을 내립니다. 
+          이 전쟁은 단순한 영토 분쟁을 넘어 국제 정치의 권력 지형을 완전히 갈아엎었습니다. 
+          수백 년을 이어오던 러시아 로마노프 왕조, 오스트리아-헝가리 제국, 독일 제국, 그리고 
+          오스만 제국이 이 전쟁을 끝으로 역사 속으로 사라졌습니다.
+        </p>
+
+        <h2>불안한 평화와 중동의 불씨</h2>
+        <p>
+          베르사유 조약으로 평화가 찾아온 듯했지만, 패전국 독일에 부과된 가혹한 배상금은 
+          또 다른 거대한 복수극의 씨앗이 되었습니다. 또한 이 시기 영국이 중동 지역에서 맺은 
+          위험한 이중 계약과 밸푸어 선언 등은, 오늘날까지 이어지는 국제 정치의 깊은 상흔과 
+          분쟁의 불씨를 남겨두게 됩니다.
+        </p>
+      </article>
+    </main>
+  </div>
+
+  <div id="ww2" class="page-view">
+    <header class="article-header">
+      <p class="article-meta">Global Conflict · Archive</p>
+      <h1 class="article-main-title">제2차 세계대전</h1>
+      <p class="article-subtitle">인류 역사상 가장 거대하고 파괴적인 총력전, 그리고 새로운 세계 질서의 서막 (1939-1945)</p>
+    </header>
+
+    <main class="article-content-wrapper">
+      <article class="article-content">
+        <p class="dropcap">
+          제1차 세계대전이 끝난 지 불과 21년 후인 1939년 9월 1일, 
+          나치 독일이 폴란드를 침공하며 인류는 또다시 회복 불가능한 거대한 광기 속으로 빠져들었습니다. 
+          경제 대공황의 절망 속에서 피어난 파시즘과 전체주의는 전 세계를 피로 물들인 
+          가장 파괴적인 총력전(Total War)을 일으켰습니다.
+        </p>
+        
+        <div class="quote-box">
+          <p>"우리는 해변에서 싸울 것입니다, 우리는 상륙장에서 싸울 것입니다, 우리는 들판과 거리에서 싸울 것입니다, 우리는 언덕에서 싸울 것입니다. 우리는 결코 항복하지 않을 것입니다."</p>
+          <p style="text-align:right; font-size:14px; margin-top:10px;">- 윈스턴 처칠 (1940년 됭케르크 철수 이후 대국민 연설)</p>
+        </div>
+
+        <h2>전쟁의 참상과 홀로코스트</h2>
+        <p>
+          전장은 유럽의 눈 덮인 숲부터 북아프리카의 뜨거운 사막, 그리고 아시아와 태평양의 깊은 정글까지 
+          전 지구적으로 확대되었습니다. 무엇보다 이 전쟁이 남긴 가장 끔찍한 상흔은 '홀로코스트(Holocaust)'였습니다. 
+          특정 인종을 절멸시키기 위해 국가의 시스템이 조직적으로 개입한 이 비극은 
+          인간 본성의 바닥을 적나라하게 보여주었습니다.
+        </p>
+
+        <h2>원자폭탄과 냉전이라는 새로운 질서</h2>
+        <p>
+          1945년 8월, 일본 히로시마와 나가사키에 인류 최초의 원자폭탄이 투하되며 전쟁은 종식되었습니다. 
+          하지만 버섯구름이 걷힌 후 세상의 권력 지도는 다시 한번 거대하게 재편되었습니다. 
+          유럽 열강들이 몰락한 빈자리는 미국과 소련이라는 두 개의 거대한 초강대국이 차지하게 되었고, 
+          이는 이념의 장벽으로 세상을 양분한 '냉전(Cold War)' 시대의 개막을 알리는 신호탄이 되었습니다.
+        </p>
       </article>
     </main>
   </div>
@@ -345,7 +410,7 @@
       ANN<span style="color:#b8922a;">A</span>LS
     </div>
     <p style="font-family:'Cormorant Garamond', serif; font-size:14px; margin-top:10px; color:rgba(242,234,216,0.4);">
-      역사 속 인물들의 삶을 깊이 있게 기록하는 아카이브입니다.
+      역사 속 인물들의 삶과 세계의 흐름을 깊이 있게 기록하는 아카이브입니다.
     </p>
   </footer>
 
@@ -354,10 +419,13 @@
   </div>
 
   <script>
-    function showView(viewName) {
-      document.getElementById('home-view').style.display = 'none';
-      document.getElementById('article-view').style.display = 'none';
-      document.getElementById(viewName + '-view').style.display = 'block';
+    function showView(viewId) {
+      // 모든 화면을 숨김
+      const views = document.querySelectorAll('.page-view');
+      views.forEach(view => view.classList.remove('active'));
+      
+      // 선택한 화면만 표시
+      document.getElementById(viewId).classList.add('active');
       window.scrollTo(0, 0);
     }
   </script>
