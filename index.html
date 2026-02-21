@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>\uc9c0\uc5ed\ubcc4 \uc544\uce74\uc774\ube0c \u2014 ANNALS</title>
+  <title>지역별 아카이브 — ANNALS</title>
   <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Nanum+Myeongjo:wght@400;700&family=Cinzel:wght@400;600;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
   <style>
+    /* 기본 색상 및 설정 */
     :root {
       --ink: #12100e;
       --parchment: #f2ead8;
@@ -29,7 +30,7 @@
       line-height: 1.6;
     }
 
-    /* \ucee4\uc2a4\ud140 \ub9c8\uc6b0\uc2a4 \ucee4\uc11c */
+    /* 마우스 커서 효과 */
     .cursor {
       position: fixed; width: 12px; height: 12px;
       background: var(--gold); border-radius: 50%;
@@ -46,13 +47,15 @@
       transition: transform 0.15s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
     }
     body:hover .cursor { opacity: 1; }
+    
+    /* 종이 질감 배경 */
     body::before {
       content: ''; position: fixed; inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
       pointer-events: none; z-index: 9990; opacity: 0.5;
     }
 
-    /* NAV */
+    /* 상단 네비게이션바 */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; align-items: center; justify-content: space-between;
@@ -62,4 +65,294 @@
     .nav-logo { font-family: 'Cinzel', serif; font-size: 22px; font-weight: 900; letter-spacing: 8px; color: var(--ink); text-decoration: none; }
     .nav-logo span { color: var(--gold); }
     .nav-links { display: flex; gap: 40px; list-style: none; }
-    .nav-links a { font-family: 'Cormorant Garamond', serif; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.3s;
+    .nav-links a { font-family: 'Cormorant Garamond', serif; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.3s; }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* 헤더 (제목 영역) */
+    .archive-header {
+      padding: 160px 60px 60px;
+      text-align: center;
+      background: var(--parchment);
+      border-bottom: 1px solid rgba(184,146,42,0.2);
+    }
+    .archive-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 16px;
+      letter-spacing: 4px;
+    }
+    .archive-subtitle {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 18px;
+      color: var(--muted);
+    }
+
+    /* 지역별 카테고리 본문 */
+    .directory-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 40px;
+    }
+    
+    .directory-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* PC에서는 2단 구성 */
+      gap: 60px 80px;
+    }
+
+    .category-block {
+      border-top: 1px solid var(--gold);
+      padding-top: 20px;
+    }
+
+    .category-title {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--rust);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .category-title::before {
+      content: '✦';
+      font-size: 14px;
+      color: var(--gold);
+    }
+
+    .simple-list { list-style: none; }
+    .simple-list li {
+      margin-bottom: 16px;
+      border-bottom: 1px dashed rgba(122, 110, 94, 0.3);
+      padding-bottom: 12px;
+    }
+    .simple-list li:last-child { border-bottom: none; }
+
+    .simple-list a {
+      text-decoration: none;
+      color: var(--ink);
+      font-size: 17px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+    .simple-list a:hover {
+      color: var(--gold);
+      padding-left: 8px; /* 마우스 올렸을 때 살짝 이동하는 효과 */
+    }
+
+    .article-date {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* 하단 푸터 */
+    footer { background: var(--ink); padding: 60px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 60px; align-items: start; color: var(--parchment); }
+    .footer-brand .logo { font-family: 'Cinzel', serif; font-size: 24px; font-weight: 900; letter-spacing: 8px; margin-bottom: 12px; }
+    .footer-brand .logo span { color: var(--gold); }
+    .footer-brand p { font-family: 'Cormorant Garamond', serif; font-size: 14px; line-height: 1.8; color: rgba(242,234,216,0.4); }
+    .footer-col h4 { font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 10px; }
+    .footer-col ul li a { font-family: 'Cormorant Garamond', serif; font-size: 15px; color: rgba(242,234,216,0.5); text-decoration: none; transition: color 0.3s; }
+    .footer-col ul li a:hover { color: var(--gold); }
+    .footer-bottom { background: #0a0806; padding: 20px 60px; display: flex; justify-content: space-between; border-top: 1px solid rgba(184,146,42,0.1); }
+    .footer-bottom p { font-family: 'Cormorant Garamond', serif; font-size: 12px; letter-spacing: 2px; color: rgba(242,234,216,0.25); }
+
+    /* 모바일 반응형 설정 */
+    @media (max-width: 900px) {
+      nav { padding: 20px 24px; }
+      .nav-links { display: none; }
+      .archive-header { padding: 120px 24px 40px; }
+      .directory-container { padding: 40px 24px; }
+      .directory-grid { grid-template-columns: 1fr; gap: 50px; } /* 모바일에서는 1단 구성 */
+      footer { grid-template-columns: 1fr; padding: 40px 24px; }
+      .footer-bottom { flex-direction: column; text-align: center; gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
+
+  <nav>
+    <a href="index.html" class="nav-logo">ANN<span>A</span>LS</a>
+    <ul class="nav-links">
+      <li><a href="archive.html">인물 목록</a></li>
+      <li><a href="archive.html">지역별</a></li>
+      <li><a href="index.html">메인으로</a></li>
+    </ul>
+  </nav>
+
+  <header class="archive-header">
+    <h1 class="archive-title">ARCHIVES</h1>
+    <p class="archive-subtitle">지역별 역사와 인물들의 기록</p>
+  </header>
+
+  <main class="directory-container">
+    <div class="directory-grid">
+
+      <div class="category-block">
+        <h2 class="category-title">유럽사</h2>
+        <ul class="simple-list">
+          <li>
+            <a href="history_uk.html">
+              <span>대브리튼 연합 왕국의 형성 (영국사)</span>
+              <span class="article-date">Updated</span>
+            </a>
+          </li>
+          <li>
+            <a href="george_vi.html">
+              <span>조지 6세, 말더듬이 국왕의 전쟁 극복기</span>
+              <span class="article-date">Updated</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span>준비 중인 아티클입니다</span>
+              <span class="article-date">—</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="category-block">
+        <h2 class="category-title">동아시아</h2>
+        <ul class="simple-list">
+          <li>
+            <a href="#">
+              <span>준비 중인 아티클입니다</span>
+              <span class="article-date">—</span>
+            </a>
+          </li>
+          <li>
+            <a href="#">
+              <span>준비 중인 아티클입니다</span>
+              <span class="article-date">—</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="category-block">
+        <h2 class="category-title">중동사</h2>
+        <ul class="simple-list">
+          <li>
+            <a href="#">
+              <span>준비 중인 아티클입니다</span>
+              <span class="article-date">—</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="category-block">
+        <h2 class="category-title">미국사</h2>
+        <ul class="simple-list">
+          <li>
+            <a href="#">
+              <span>준비 중인 아티클입니다</span>
+              <span class="article-date">—</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="category-block">
+        <h2 class="category-title">아프리카</h2>
+        <ul class="simple-list">
+          <li>
+            <a href="#">
+              <span>준비 중인 아티클입니다</span>
+              <span class="article-date">—</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="category-block">
+        <h2 class="category-title">인도·파키스탄</h2>
+        <ul class="simple-list">
+          <li>
+            <a href="#">
+              <span>준비 중인 아티클입니다</span>
+              <span class="article-date">—</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-brand">
+      <div class="logo">ANN<span>A</span>LS</div>
+      <p>시대를 초월한 인간의 이야기.<br>역사 속 인물들의 삶을 깊이 있게 기록하는 아카이브입니다.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Archive</h4>
+      <ul>
+        <li><a href="george_vi.html">조지 6세</a></li>
+        <li><a href="history_uk.html">영국 연합사</a></li>
+        <li><a href="#">시대별 보기</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>About</h4>
+      <ul>
+        <li><a href="#">ANNALS 소개</a></li>
+        <li><a href="#">구독하기</a></li>
+      </ul>
+    </div>
+  </footer>
+  <div class="footer-bottom">
+    <p>© 2026 ANNALS. All rights reserved.</p>
+    <p>역사 속 인물 아카이브</p>
+  </div>
+
+  <script>
+    // 마우스 커서 스크립트
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top = my + 'px';
+    });
+
+    function animateRing() {
+      rx += (mx - rx) * 0.12;
+      ry += (my - ry) * 0.12;
+      ring.style.left = rx + 'px';
+      ring.style.top = ry + 'px';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursor.style.width = '6px';
+        cursor.style.height = '6px';
+        ring.style.width = '52px';
+        ring.style.height = '52px';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursor.style.width = '12px';
+        cursor.style.height = '12px';
+        ring.style.width = '36px';
+        ring.style.height = '36px';
+      });
+    });
+  </script>
+</body>
+</html>
