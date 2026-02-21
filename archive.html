@@ -1,1 +1,159 @@
 
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>세계사 공부 아카이브 — ANNALS</title>
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Nanum+Myeongjo:wght@400;700&family=Cinzel:wght@400;600;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #12100e; --parchment: #f2ead8; --aged: #e8dcc4;
+      --gold: #b8922a; --gold-dim: #8a6d1f; --rust: #8b3a2a;
+      --olive: #4a5240; --muted: #7a6e5e; --warm-white: #faf6ee;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--warm-white); color: var(--ink); font-family: 'Nanum Myeongjo', serif; line-height: 1.6; }
+    
+    /* 네비게이션바 */
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 24px 60px; background: rgba(250,246,238,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(184,146,42,0.2); }
+    .nav-logo { font-family: 'Cinzel', serif; font-size: 22px; font-weight: 900; letter-spacing: 8px; color: var(--ink); text-decoration: none; }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 40px; list-style: none; }
+    .nav-links a { font-family: 'Cormorant Garamond', serif; font-size: 13px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.3s; }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* 헤더 */
+    .archive-header { padding: 160px 60px 60px; text-align: center; background: var(--parchment); border-bottom: 1px solid rgba(184,146,42,0.2); }
+    .archive-title { font-family: 'Cinzel', serif; font-size: clamp(32px, 4vw, 48px); font-weight: 700; color: var(--ink); margin-bottom: 16px; letter-spacing: 4px; }
+    .archive-subtitle { font-family: 'Nanum Myeongjo', serif; font-size: 18px; color: var(--muted); }
+
+    /* 리스트 그리드 */
+    .directory-container { max-width: 1100px; margin: 0 auto; padding: 80px 40px; }
+    .directory-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 60px 80px; }
+    .category-block { border-top: 1px solid var(--gold); padding-top: 20px; }
+    .category-title { font-family: 'Nanum Myeongjo', serif; font-size: 24px; font-weight: 700; color: var(--rust); margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+    .category-title::before { content: '✦'; font-size: 14px; color: var(--gold); }
+    
+    .simple-list { list-style: none; }
+    .simple-list li { margin-bottom: 16px; border-bottom: 1px dashed rgba(122, 110, 94, 0.3); padding-bottom: 12px; }
+    .simple-list li:last-child { border-bottom: none; }
+    .simple-list a { text-decoration: none; color: var(--ink); font-size: 17px; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s ease; }
+    .simple-list a:hover { color: var(--gold); padding-left: 8px; }
+    
+    .article-status { font-family: 'Cormorant Garamond', serif; font-size: 13px; color: var(--muted); font-style: italic; }
+    .status-done { color: var(--olive); font-weight: 600; }
+
+    /* 푸터 */
+    footer { background: var(--ink); padding: 60px; text-align: center; color: var(--parchment); margin-top: 40px; }
+    .footer-bottom { background: #0a0806; padding: 20px; text-align: center; border-top: 1px solid rgba(184,146,42,0.1); font-size: 12px; color: rgba(242,234,216,0.25); }
+
+    @media (max-width: 900px) { nav { padding: 20px 24px; } .nav-links { display: none; } .archive-header { padding: 120px 24px 40px; } .directory-container { padding: 40px 24px; } .directory-grid { grid-template-columns: 1fr; gap: 50px; } }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">ANN<span>A</span>LS</a>
+    <ul class="nav-links">
+      <li><a href="archive.html">세계사 공부</a></li>
+      <li><a href="index.html">메인으로</a></li>
+    </ul>
+  </nav>
+
+  <header class="archive-header">
+    <h1 class="archive-title">WORLD HISTORY</h1>
+    <p class="archive-subtitle">지역별 역사와 국제 정치, 그리고 인물들의 기록</p>
+  </header>
+
+  <main class="directory-container">
+    <div class="directory-grid">
+
+      <div class="category-block">
+        <h2 class="category-title">유럽사</h2>
+        <ul class="simple-list">
+          <li>
+            <a href="history_uk.html"><span>대브리튼 연합 왕국의 형성</span><span class="article-status status-done">완료</span></a>
+          </li>
+          <li>
+            <a href="george_vi.html"><span>조지 6세와 2차 세계대전</span><span class="article-status status-done">완료</span></a>
+          </li>
+          <li>
+            <a href="#"><span>로스차일드 가문과 금융 제국의 탄생</span><span class="article-status">예정</span></a>
+          </li>
+          <li>
+            <a href="#"><span>대영제국의 식민 지배 구조 분석</span><span class="article-status">예정</span></a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="category-block">
+        <h2 class="category-title">동아시아사</h2>
+        <ul class="simple-list">
+          <li>
+            <a href="#"><span>조선 후기 민화, 책가도에 담긴 상징</span><span class="article-status">예정</span></a>
+          </li>
+          <li>
+            <a href="#"><span>동아시아의 근대화와 권력 이동</span><span class="article-status">예정</span></a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="category-block">
+        <h2 class="category-title">중동사</h2>
+        <ul class="simple-list">
+          <li>
+            <a href="#"><span>벨푸어 선언과 중동 분쟁의 씨앗</span><span class="article-status">예정</span></a>
+          </li>
+          <li>
+            <a href="#"><span>석유 패권과 중동의 국제 정치</span><span class="article-status">예정</span></a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="category-block">
+        <h2 class="category-title">미국사 및 국제정치</h2>
+        <ul class="simple-list">
+          <li>
+            <a href="#"><span>보이지 않는 권력, 딥스테이트의 역사</span><span class="article-status">예정</span></a>
+          </li>
+          <li>
+            <a href="#"><span>냉전 시대의 패권 경쟁</span><span class="article-status">예정</span></a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="category-block">
+        <h2 class="category-title">아프리카사</h2>
+        <ul class="simple-list">
+          <li>
+            <a href="#"><span>제국주의 시대 아프리카 분할</span><span class="article-status">예정</span></a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="category-block">
+        <h2 class="category-title">인도·남아시아사</h2>
+        <ul class="simple-list">
+          <li>
+            <a href="#"><span>영국 동인도 회사의 진출과 지배</span><span class="article-status">예정</span></a>
+          </li>
+          <li>
+            <a href="#"><span>인도-파키스탄 분리 독립의 비극</span><span class="article-status">예정</span></a>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <div class="logo" style="font-family: 'Cinzel', serif; font-size: 24px; font-weight: 900; letter-spacing: 8px;">ANN<span style="color: var(--gold);">A</span>LS</div>
+  </footer>
+  <div class="footer-bottom">
+    <p>© 2026 ANNALS. 세계사 스터디 아카이브</p>
+  </div>
+
+</body>
+</html>
