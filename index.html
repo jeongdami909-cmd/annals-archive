@@ -19,83 +19,93 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background: var(--warm-white); color: var(--ink); font-family: 'Nanum Myeongjo', serif; line-height: 1.6; word-break: keep-all; }
 
-    /* NAV */
+    /* NAV & HEADER */
     nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 20px 40px; background: rgba(250,246,238,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(184,146,42,0.2); }
-    .nav-logo { font-family: 'Cinzel', serif; font-size: 20px; font-weight: 900; letter-spacing: 5px; color: var(--ink); text-decoration: none; cursor: pointer; }
+    .nav-logo { font-family: 'Cinzel', serif; font-size: 20px; font-weight: 900; letter-spacing: 5px; color: var(--ink); text-decoration: none; }
     .nav-logo span { color: var(--gold); }
-    .btn-write { background: var(--rust); color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 1px; }
+    .btn-write { background: var(--rust); color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 1px; }
 
-    /* HEADER */
-    .header-section { padding: 140px 20px 60px; text-align: center; background: var(--parchment); }
+    .header-section { padding: 140px 20px 40px; text-align: center; background: var(--parchment); }
     .header-section h1 { font-family: 'Cinzel', serif; font-size: clamp(2.5rem, 6vw, 4rem); margin-bottom: 10px; }
 
-    /* LIST & CARDS */
-    .article-container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
-    .archive-card { background: white; border: 1px solid var(--aged); padding: 30px; margin-bottom: 30px; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
+    /* 대륙별 필터 바 */
+    .filter-bar { padding: 20px; display: flex; gap: 10px; justify-content: center; background: var(--warm-white); border-bottom: 1px solid var(--aged); }
+    .tag-btn { background: white; border: 1px solid var(--aged); color: var(--gold); padding: 6px 16px; border-radius: 20px; cursor: pointer; font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 1px; }
+    .tag-btn.active { background: var(--gold); color: white; border-color: var(--gold); }
+
+    /* 리스트 및 카드 */
+    .article-container { max-width: 800px; margin: 30px auto; padding: 0 20px; display: flex; flex-direction: column; gap: 30px; }
+    .archive-card { background: white; border: 1px solid var(--aged); padding: 30px; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
     .archive-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--gold); }
-    .meta { font-family: 'Cinzel', serif; font-size: 11px; color: var(--gold); letter-spacing: 2px; }
-    .card-title { font-size: 24px; margin: 10px 0; font-weight: 700; }
-    .content-preview { color: #444; margin: 15px 0; text-align: justify; white-space: pre-wrap; }
+    .meta-tag { font-family: 'Cinzel', serif; font-size: 11px; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; }
+    .card-title { font-size: 26px; margin: 12px 0; font-weight: 700; }
+    .content-area { color: #333; margin: 20px 0; text-align: justify; white-space: pre-wrap; line-height: 2; font-size: 16px; }
     
-    /* PHOTO FRAME */
-    .photo-frame { max-width: 400px; margin: 20px 0; padding: 10px; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 1px solid var(--aged); }
-    .photo-frame img { width: 100%; filter: sepia(0.1); }
+    /* 사진 프레임 */
+    .photo-frame { max-width: 100%; margin: 20px 0; padding: 12px; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid var(--aged); text-align: center; }
+    .photo-frame img { width: 100%; display: block; filter: sepia(0.1); }
     .photo-frame img[src=""], .photo-frame img:not([src]) { display: none; }
 
-    .card-actions { display: flex; gap: 10px; justify-content: flex-end; border-top: 1px solid var(--aged); padding-top: 15px; margin-top: 15px; }
-    .btn-action { background: none; border: 1px solid var(--aged); padding: 5px 15px; font-size: 12px; cursor: pointer; color: var(--muted); }
-    .btn-action:hover { color: var(--gold); border-color: var(--gold); }
+    .card-footer { display: flex; gap: 10px; justify-content: flex-end; border-top: 1px solid var(--aged); padding-top: 15px; margin-top: 20px; }
+    .btn-sm { background: none; border: 1px solid var(--aged); padding: 6px 14px; font-size: 12px; cursor: pointer; font-family: 'Cinzel', serif; color: var(--muted); }
+    .btn-sm:hover { color: var(--rust); border-color: var(--rust); }
 
-    /* MODAL: 입력 칸 확대 */
+    /* 모달 (입력창) */
     .modal-bg { display: none; position: fixed; inset: 0; background: var(--overlay); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
     .modal-bg.open { display: flex; }
-    .modal { background: var(--parchment); width: 100%; max-width: 700px; padding: 35px; border-radius: 8px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
-    .modal h2 { font-family: 'Cinzel', serif; margin-bottom: 25px; color: var(--ink); text-align: center; letter-spacing: 3px; }
-    
-    label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 8px; color: var(--rust); text-transform: uppercase; }
-    input, select, textarea { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid var(--aged); background: white; font-family: 'Nanum Myeongjo', serif; font-size: 15px; }
-    
-    /* 역사 기록을 위해 textarea 높이를 대폭 키움 */
-    textarea { min-height: 400px; line-height: 1.8; resize: vertical; }
+    .modal { background: var(--parchment); width: 100%; max-width: 600px; padding: 30px; border-radius: 8px; max-height: 90vh; overflow-y: auto; }
+    label { display: block; font-size: 11px; font-weight: 700; margin-bottom: 6px; color: var(--rust); font-family: 'Cinzel', serif; }
+    input, select, textarea { width: 100%; padding: 12px; margin-bottom: 18px; border: 1px solid var(--aged); font-family: 'Nanum Myeongjo', serif; font-size: 15px; }
+    textarea { min-height: 350px; line-height: 1.8; resize: vertical; }
 
-    .modal-btns { display: flex; gap: 15px; }
-    .modal-btns button { flex: 1; padding: 15px; border: none; cursor: pointer; font-family: 'Cinzel', serif; letter-spacing: 2px; }
+    .modal-btns { display: flex; gap: 10px; }
+    .modal-btns button { flex: 1; padding: 14px; border: none; cursor: pointer; font-family: 'Cinzel', serif; letter-spacing: 1px; font-size: 13px; }
     .save-btn { background: var(--rust); color: white; }
     .cancel-btn { background: var(--muted); color: white; }
-
-    footer { background: var(--ink); color: var(--parchment); padding: 60px 20px; text-align: center; margin-top: 80px; }
   </style>
 </head>
 <body>
 
   <nav>
     <a href="#" class="nav-logo">ANN<span>A</span>LS</a>
-    <button class="btn-write" onclick="openModal()">＋ ADD ARCHIVE</button>
+    <button class="btn-write" onclick="openModal()">＋ NEW ARCHIVE</button>
   </nav>
 
   <header class="header-section">
-    <p class="meta">Historical Archive</p>
+    <p class="meta-tag">Historical Archive</p>
     <h1>ANNALS</h1>
-    <p style="font-family:'IM Fell English', serif; font-style:italic; color:var(--muted);">기록되지 않은 역사는 사라진다.</p>
+    <p style="font-family:'IM Fell English', serif; font-style:italic; color:var(--muted);">역사 속 인물들의 삶과 권력의 흐름을 기록하는 아카이브</p>
   </header>
+
+  <div class="filter-bar">
+    <button class="tag-btn active" onclick="filterBy('전체', this)">ALL</button>
+    <button class="tag-btn" onclick="filterBy('아시아', this)">ASIA</button>
+    <button class="tag-btn" onclick="filterBy('유럽', this)">EUROPE</button>
+    <button class="tag-btn" onclick="filterBy('미국', this)">USA</button>
+  </div>
 
   <main class="article-container" id="archiveList"></main>
 
   <div class="modal-bg" id="modalBg">
     <div class="modal">
-      <h2 id="modalTitle">NEW RECORD</h2>
+      <h2 id="modalTitle" style="font-family:'Cinzel', serif; text-align:center; margin-bottom:20px;">RECORDING</h2>
       
-      <label>주제 분류 (Category)</label>
-      <input type="text" id="f-category" placeholder="예: European History">
+      <label>REGION (지역)</label>
+      <select id="f-region">
+        <option value="아시아">아시아</option>
+        <option value="유럽">유럽</option>
+        <option value="미국">미국</option>
+        <option value="기타">기타</option>
+      </select>
       
-      <label>인물 또는 사건명 (Title)</label>
-      <input type="text" id="f-title" placeholder="기록의 제목을 입력하세요">
+      <label>TITLE (인물/사건)</label>
+      <input type="text" id="f-title" placeholder="기록의 제목">
       
-      <label>역사적 기록 (Annals)</label>
-      <textarea id="f-content" placeholder="역사적 사실과 흐름을 깊이 있게 기록하세요."></textarea>
+      <label>HISTORY (내용)</label>
+      <textarea id="f-content" placeholder="역사적 사실을 길게 기록하세요."></textarea>
       
-      <label>관련 이미지 주소 (Image URL)</label>
-      <input type="text" id="f-img" placeholder="JPG, PNG 등 이미지 주소를 넣어주세요">
+      <label>IMAGE URL (사진 주소)</label>
+      <input type="text" id="f-img" placeholder="사진 링크를 입력하세요">
       
       <div class="modal-btns">
         <button class="save-btn" onclick="handleSave()">ARCHIVE</button>
@@ -104,40 +114,30 @@
     </div>
   </div>
 
-  <footer>
-    <div style="font-family:'Cinzel', serif; font-size:24px; font-weight:900; letter-spacing:8px;">ANN<span>A</span>LS</div>
-    <p style="font-size:12px; margin-top:15px; color:rgba(242,234,216,0.3);">© 2026 ANNALS. All rights reserved.</p>
-  </footer>
-
   <script>
-    let archives = JSON.parse(localStorage.getItem('annals_data') || '[]');
+    let archives = JSON.parse(localStorage.getItem('annals_v3') || '[]');
     let editId = null;
 
-    // 초기 데이터 예시
     if(archives.length === 0) {
-      archives = [{
-        id: 1, 
-        category: 'European History', 
-        title: '조지 6세', 
-        content: '왕이 될 운명이 아니었던 남자. 본래 내성적이었으나 형 에드워드 8세의 퇴위로 갑작스럽게 왕위에 올랐습니다. 심한 말더듬이를 극복하고 제2차 세계대전 중 런던 폭격 속에서도 버킹엄 궁을 지키며 영국 국민들의 정신적 지주가 되었습니다.',
-        img: ''
-      }];
-      localStorage.setItem('annals_data', JSON.stringify(archives));
+      archives = [{id: 1, region: '유럽', title: '조지 6세', content: '왕이 될 운명이 아니었던 남자. 말더듬이를 극복한 인간적인 군주.', img: ''}];
+      localStorage.setItem('annals_v3', JSON.stringify(archives));
     }
 
-    function render() {
+    function render(filter = '전체') {
       const list = document.getElementById('archiveList');
       list.innerHTML = '';
-      archives.forEach(a => {
+      const filtered = filter === '전체' ? archives : archives.filter(a => a.region === filter);
+
+      filtered.forEach(a => {
         list.innerHTML += `
           <div class="archive-card">
-            <p class="meta">${a.category}</p>
+            <p class="meta-tag">${a.region}</p>
             <h2 class="card-title">${a.title}</h2>
-            <div class="content-preview">${a.content}</div>
+            <div class="content-area">${a.content}</div>
             ${a.img ? `<div class="photo-frame"><img src="${a.img}" onerror="this.style.display='none'"></div>` : ''}
-            <div class="card-actions">
-              <button class="btn-action" onclick="openModal(${a.id})">EDIT</button>
-              <button class="btn-action" style="color:var(--rust)" onclick="deleteArchive(${a.id})">DELETE</button>
+            <div class="card-footer">
+              <button class="btn-sm" onclick="openModal(${a.id})">EDIT</button>
+              <button class="btn-sm" style="color:var(--rust)" onclick="deleteArchive(${a.id})">DELETE</button>
             </div>
           </div>
         `;
@@ -147,14 +147,14 @@
     function openModal(id = null) {
       editId = id;
       if(id) {
-        const a = archives.find(item => item.id === id);
-        document.getElementById('f-category').value = a.category;
+        const a = archives.find(i => i.id === id);
+        document.getElementById('f-region').value = a.region;
         document.getElementById('f-title').value = a.title;
         document.getElementById('f-content').value = a.content;
         document.getElementById('f-img').value = a.img || '';
         document.getElementById('modalTitle').innerText = "EDIT RECORD";
       } else {
-        document.getElementById('f-category').value = '';
+        document.getElementById('f-region').value = '아시아';
         document.getElementById('f-title').value = '';
         document.getElementById('f-content').value = '';
         document.getElementById('f-img').value = '';
@@ -166,32 +166,36 @@
     function closeModal() { document.getElementById('modalBg').classList.remove('open'); }
 
     function handleSave() {
-      const category = document.getElementById('f-category').value;
+      const region = document.getElementById('f-region').value;
       const title = document.getElementById('f-title').value;
       const content = document.getElementById('f-content').value;
       const img = document.getElementById('f-img').value;
 
-      if(!title || !content) return alert("제목과 기록 내용은 필수입니다.");
+      if(!title || !content) return alert("제목과 내용을 입력해 주세요.");
 
-      const data = { id: editId || Date.now(), category, title, content, img };
-
+      const data = { id: editId || Date.now(), region, title, content, img };
       if(editId) {
         const idx = archives.findIndex(a => a.id === editId);
         archives[idx] = data;
       } else {
         archives.unshift(data);
       }
-      
-      localStorage.setItem('annals_data', JSON.stringify(archives));
+      localStorage.setItem('annals_v3', JSON.stringify(archives));
       render();
       closeModal();
     }
 
     function deleteArchive(id) {
-      if(!confirm("이 기록을 영구히 삭제하시겠습니까?")) return;
+      if(!confirm("삭제하시겠습니까?")) return;
       archives = archives.filter(a => a.id !== id);
-      localStorage.setItem('annals_data', JSON.stringify(archives));
+      localStorage.setItem('annals_v3', JSON.stringify(archives));
       render();
+    }
+
+    function filterBy(region, btn) {
+      document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render(region);
     }
 
     render();
