@@ -4,431 +4,197 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ANNALS — 역사 아카이브</title>
-
   <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Nanum+Myeongjo:wght@400;700&family=Cinzel:wght@400;600;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
-
   <style>
     :root {
       --ink: #12100e;
       --parchment: #f2ead8;
       --aged: #e8dcc4;
       --gold: #b8922a;
-      --gold-dim: #8a6d1f;
       --rust: #8b3a2a;
-      --olive: #4a5240;
-      --muted: #7a6e5e;
       --warm-white: #faf6ee;
+      --overlay: rgba(18,16,14,0.7);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--warm-white);
-      color: var(--ink);
-      font-family: 'Nanum Myeongjo', serif;
-      line-height: 1.6;
-      word-break: keep-all; 
-      overflow-wrap: break-word;
-    }
+    body { background: var(--warm-white); color: var(--ink); font-family: 'Nanum Myeongjo', serif; line-height: 1.6; word-break: keep-all; }
 
     /* NAV */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 24px 60px;
-      background: rgba(250,246,238,0.95);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(184,146,42,0.2);
-    }
-
-    .nav-logo {
-      font-family: 'Cinzel', serif;
-      font-size: 22px;
-      font-weight: 900;
-      letter-spacing: 8px;
-      color: var(--ink);
-      text-decoration: none;
-      cursor: pointer;
-    }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 20px 40px; background: rgba(250,246,238,0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(184,146,42,0.2); }
+    .nav-logo { font-family: 'Cinzel', serif; font-size: 20px; font-weight: 900; letter-spacing: 5px; color: var(--ink); text-decoration: none; cursor: pointer; }
     .nav-logo span { color: var(--gold); }
-
-    .nav-links { display: flex; gap: 40px; list-style: none; }
-    .nav-links a {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 15px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      color: var(--muted);
-      text-decoration: none;
-      transition: 0.3s;
-      cursor: pointer;
-    }
-    .nav-links a:hover { color: var(--gold); }
+    .btn-write { background: var(--rust); color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 1px; }
 
     /* HEADER */
-    .article-header {
-      padding: 160px 60px 80px;
-      text-align: center;
-      background: var(--parchment);
-      border-bottom: 1px solid rgba(184,146,42,0.2);
-    }
+    .header-section { padding: 140px 20px 60px; text-align: center; background: var(--parchment); }
+    .header-section h1 { font-family: 'Cinzel', serif; font-size: clamp(2.5rem, 6vw, 4rem); margin-bottom: 10px; }
 
-    .article-meta {
-      font-family: 'Cinzel', serif;
-      font-size: 11px;
-      letter-spacing: 4px;
-      color: var(--gold);
-      margin-bottom: 20px;
-      text-transform: uppercase;
-    }
-
-    .article-main-title {
-      font-size: clamp(32px, 5vw, 56px);
-      font-weight: 700;
-      margin-bottom: 24px;
-    }
-
-    .article-subtitle {
-      font-family: 'IM Fell English', serif;
-      font-style: italic;
-      font-size: 20px;
-      color: var(--muted);
-      max-width: 650px;
-      margin: 0 auto;
-      line-height: 1.8;
-    }
-
-    /* CONTENT */
-    .article-content-wrapper {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 80px 40px;
-    }
-
-    .article-content h2 {
-      font-family: 'Cinzel', serif;
-      font-size: 26px;
-      margin: 60px 0 20px;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-    .article-content h2::before { content: '✦'; color: var(--gold); font-size: 18px; }
-
-    .article-content p {
-      font-size: 17px;
-      line-height: 2.2;
-      color: #333;
-      margin-bottom: 30px;
-      text-align: justify;
-    }
-
-    .dropcap::first-letter {
-      float: left;
-      font-family: 'Cinzel', serif;
-      font-size: 70px;
-      line-height: 60px;
-      padding-top: 4px;
-      padding-right: 12px;
-      color: var(--rust);
-    }
-
-    .quote-box {
-      background: var(--parchment);
-      border-left: 4px solid var(--gold);
-      padding: 30px 40px;
-      margin: 40px 0;
-      font-style: italic;
-      color: var(--olive);
-    }
-
+    /* LIST & CARDS */
+    .article-container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+    .archive-card { background: white; border: 1px solid var(--aged); padding: 30px; margin-bottom: 30px; position: relative; box-shadow: 0 5px 15px rgba(0,0,0,0.03); }
+    .archive-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--gold); }
+    .meta { font-family: 'Cinzel', serif; font-size: 11px; color: var(--gold); letter-spacing: 2px; }
+    .card-title { font-size: 24px; margin: 10px 0; font-weight: 700; }
+    .content-preview { color: #444; margin: 15px 0; text-align: justify; white-space: pre-wrap; }
+    
     /* PHOTO FRAME */
-    .photo-frame {
-      background: #fff;
-      padding: 15px 15px 40px 15px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      margin: 50px auto;
-      max-width: 400px;
-      text-align: center;
-      transform: rotate(-2deg);
-      transition: transform 0.3s;
-    }
-    .photo-frame:hover { transform: rotate(0deg) scale(1.02); }
-    .photo-frame img { width: 100%; display: block; filter: sepia(0.2) contrast(1.1); }
-    .photo-frame .caption {
-      font-family: 'IM Fell English', serif;
-      font-style: italic;
-      color: #555;
-      margin-top: 15px;
-      font-size: 16px;
-      margin-bottom: 0;
-    }
+    .photo-frame { max-width: 400px; margin: 20px 0; padding: 10px; background: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 1px solid var(--aged); }
+    .photo-frame img { width: 100%; filter: sepia(0.1); }
+    .photo-frame img[src=""], .photo-frame img:not([src]) { display: none; }
 
-    /* HOME VIEW */
-    #home .article-header { background: transparent; border-bottom: none; padding-bottom: 40px; }
-    .archive-list { display: flex; flex-direction: column; gap: 30px; }
-    .archive-card {
-      background: var(--warm-white);
-      border: 1px solid rgba(184,146,42,0.3);
-      padding: 40px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-    }
-    .archive-card:hover {
-      background: var(--parchment);
-      transform: translateY(-5px);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-    }
-    .archive-card::after {
-      content: '→';
-      position: absolute;
-      right: 40px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 24px;
-      color: var(--gold);
-      opacity: 0;
-      transition: 0.3s;
-    }
-    .archive-card:hover::after { opacity: 1; right: 30px; }
+    .card-actions { display: flex; gap: 10px; justify-content: flex-end; border-top: 1px solid var(--aged); padding-top: 15px; margin-top: 15px; }
+    .btn-action { background: none; border: 1px solid var(--aged); padding: 5px 15px; font-size: 12px; cursor: pointer; color: var(--muted); }
+    .btn-action:hover { color: var(--gold); border-color: var(--gold); }
 
-    /* FOOTER */
-    footer {
-      background: var(--ink);
-      padding: 60px;
-      text-align: center;
-      color: var(--parchment);
-      margin-top: 60px;
-    }
-    .footer-bottom {
-      background: #0a0806;
-      padding: 20px;
-      text-align: center;
-      border-top: 1px solid rgba(184,146,42,0.1);
-      font-size: 12px;
-      color: rgba(242,234,216,0.25);
-    }
+    /* MODAL: 입력 칸 확대 */
+    .modal-bg { display: none; position: fixed; inset: 0; background: var(--overlay); z-index: 1000; align-items: center; justify-content: center; padding: 20px; }
+    .modal-bg.open { display: flex; }
+    .modal { background: var(--parchment); width: 100%; max-width: 700px; padding: 35px; border-radius: 8px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+    .modal h2 { font-family: 'Cinzel', serif; margin-bottom: 25px; color: var(--ink); text-align: center; letter-spacing: 3px; }
+    
+    label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 8px; color: var(--rust); text-transform: uppercase; }
+    input, select, textarea { width: 100%; padding: 12px; margin-bottom: 20px; border: 1px solid var(--aged); background: white; font-family: 'Nanum Myeongjo', serif; font-size: 15px; }
+    
+    /* 역사 기록을 위해 textarea 높이를 대폭 키움 */
+    textarea { min-height: 400px; line-height: 1.8; resize: vertical; }
 
-    @media (max-width: 900px) {
-      nav { flex-direction: column; gap: 15px; padding: 15px 24px; }
-      .nav-links { display: flex; gap: 20px; }
-      .article-header { padding: 140px 24px 40px; }
-      .article-content-wrapper { padding: 40px 24px; }
-      .archive-card { padding: 30px 20px; }
-      .archive-card::after { display: none; }
-      .photo-frame { transform: rotate(0deg); max-width: 100%; }
-    }
+    .modal-btns { display: flex; gap: 15px; }
+    .modal-btns button { flex: 1; padding: 15px; border: none; cursor: pointer; font-family: 'Cinzel', serif; letter-spacing: 2px; }
+    .save-btn { background: var(--rust); color: white; }
+    .cancel-btn { background: var(--muted); color: white; }
 
-    /* 각 화면들을 제어하기 위한 클래스 */
-    .page-view { display: none; }
-    .page-view.active { display: block; }
+    footer { background: var(--ink); color: var(--parchment); padding: 60px 20px; text-align: center; margin-top: 80px; }
   </style>
 </head>
-
 <body>
 
   <nav>
-    <a onclick="showView('home')" class="nav-logo">ANN<span>A</span>LS</a>
-    <ul class="nav-links">
-      <li><a onclick="showView('home')">세계사 공부</a></li>
-      <li><a onclick="showView('home')">메인으로</a></li>
-    </ul>
+    <a href="#" class="nav-logo">ANN<span>A</span>LS</a>
+    <button class="btn-write" onclick="openModal()">＋ ADD ARCHIVE</button>
   </nav>
 
-  <div id="home" class="page-view active">
-    <header class="article-header">
-      <p class="article-meta">Historical Archive</p>
-      <h1 class="article-main-title">ANNALS</h1>
-      <p class="article-subtitle">역사 속 인물들의 삶과 권력의 흐름을 깊이 있게 기록하는 아카이브</p>
-    </header>
+  <header class="header-section">
+    <p class="meta">Historical Archive</p>
+    <h1>ANNALS</h1>
+    <p style="font-family:'IM Fell English', serif; font-style:italic; color:var(--muted);">기록되지 않은 역사는 사라진다.</p>
+  </header>
 
-    <main class="article-content-wrapper">
-      <div class="archive-list">
-        
-        <div class="archive-card" onclick="showView('george')">
-          <p class="article-meta">European History</p>
-          <h2 style="font-family:'Cinzel', serif; font-size:28px; margin: 10px 0;">조지 6세</h2>
-          <p style="color:var(--muted); font-size:16px;">왕이 될 운명이 아니었던 남자, 말더듬이를 극복한 인간적인 군주</p>
-        </div>
+  <main class="article-container" id="archiveList"></main>
 
-        <div class="archive-card" onclick="showView('ww1')">
-          <p class="article-meta">Global Conflict</p>
-          <h2 style="font-family:'Cinzel', serif; font-size:28px; margin: 10px 0;">제1차 세계대전</h2>
-          <p style="color:var(--muted); font-size:16px;">사라예보의 총성, 제국들의 붕괴와 참호 속에서 스러진 구시대의 환상</p>
-        </div>
-
-        <div class="archive-card" onclick="showView('ww2')">
-          <p class="article-meta">Global Conflict</p>
-          <h2 style="font-family:'Cinzel', serif; font-size:28px; margin: 10px 0;">제2차 세계대전</h2>
-          <p style="color:var(--muted); font-size:16px;">인류 역사상 가장 거대하고 파괴적인 총력전, 그리고 새로운 세계 질서의 서막</p>
-        </div>
-
+  <div class="modal-bg" id="modalBg">
+    <div class="modal">
+      <h2 id="modalTitle">NEW RECORD</h2>
+      
+      <label>주제 분류 (Category)</label>
+      <input type="text" id="f-category" placeholder="예: European History">
+      
+      <label>인물 또는 사건명 (Title)</label>
+      <input type="text" id="f-title" placeholder="기록의 제목을 입력하세요">
+      
+      <label>역사적 기록 (Annals)</label>
+      <textarea id="f-content" placeholder="역사적 사실과 흐름을 깊이 있게 기록하세요."></textarea>
+      
+      <label>관련 이미지 주소 (Image URL)</label>
+      <input type="text" id="f-img" placeholder="JPG, PNG 등 이미지 주소를 넣어주세요">
+      
+      <div class="modal-btns">
+        <button class="save-btn" onclick="handleSave()">ARCHIVE</button>
+        <button class="cancel-btn" onclick="closeModal()">CANCEL</button>
       </div>
-    </main>
-  </div>
-
-  <div id="george" class="page-view">
-    <header class="article-header">
-      <p class="article-meta">European History · Archive</p>
-      <h1 class="article-main-title">조지 6세</h1>
-      <p class="article-subtitle">왕이 될 운명이 아니었던 남자, 말더듬이를 극복한 인간적인 군주</p>
-    </header>
-
-    <main class="article-content-wrapper">
-      <article class="article-content">
-        <p class="dropcap">
-          그는 화려한 스포트라이트를 받는 것을 두려워하는 내성적인 차남이었습니다.
-          본래 왕이 될 운명이 아니었기에 가족들은 그가 조용한 삶을 살 수 있을 것이라 믿었습니다.
-          그러나 형인 에드워드 8세가 사랑을 위해 왕위를 포기하는 사상 초유의 사건(세기의 로맨스)이 벌어지며 
-          동생이었던 그가 갑작스럽게 왕위에 오르게 됩니다.
-        </p>
-        <h2>말더듬이를 극복한 용기</h2>
-        <p>
-          심한 말더듬이 증상이 있었습니다. 라디오 방송이 중요해지던 시대에 대중 연설은 그에게 큰 고통이었지만, 
-          언어 치료사의 도움을 받아 이를 극복해 나갔습니다. 이 과정이 바로 영화 '킹스 스피치'의 핵심 내용입니다.
-        </p>
-        <div class="quote-box">
-          <p>"이제야 이웃들(런던 시민들)의 얼굴을 똑바로 볼 수 있겠다."</p>
-          <p style="text-align:right; font-size:14px; margin-top:10px;">- 폭격당한 버킹엄 궁전을 바라보며</p>
-        </div>
-        <h2>제2차 세계대전의 정신적 지주</h2>
-        <p>
-          제2차 세계대전 당시 런던이 독일군의 폭격을 받을 때도 피난을 가지 않고 
-          버킹엄 궁전에 남아 국민들과 고통을 함께했습니다. 
-          매주 라디오 연설을 통해 국민들에게 용기를 북돋워 주며 승리의 정신적 지주 역할을 했습니다.
-        </p>
-        <h2>엘리자베스 2세의 아버지</h2>
-        <p>
-          고(故) 엘리자베스 2세 여왕의 아버지입니다. 1925년 웸블리 전시회에서 
-          미끄럼틀을 타던 천진난만한 청년은, 훗날 56세의 나이로 서거할 때까지 
-          영국을 지탱하는 가장 거대한 기둥이 되었습니다.
-        </p>
-        <div class="photo-frame">
-          <img src="Notes_260222_055144_32f.jpg" alt="조지 6세 미끄럼틀 사진">
-          <p class="caption">Wembley Exhibition, 1925</p>
-        </div>
-      </article>
-    </main>
-  </div>
-
-  <div id="ww1" class="page-view">
-    <header class="article-header">
-      <p class="article-meta">Global Conflict · Archive</p>
-      <h1 class="article-main-title">제1차 세계대전</h1>
-      <p class="article-subtitle">사라예보의 총성, 제국들의 붕괴와 참호 속에서 스러진 구시대의 환상 (1914-1918)</p>
-    </header>
-
-    <main class="article-content-wrapper">
-      <article class="article-content">
-        <p class="dropcap">
-          1914년 6월 28일, 발칸 반도의 사라예보에서 울려 퍼진 두 발의 총성은 
-          복잡하게 얽혀 있던 유럽의 동맹 체제를 단숨에 연쇄 폭발로 이끌었습니다. 
-          오스트리아-헝가리 제국의 황태자 부부 암살 사건은, 수십 년간 제국주의 열강들이 
-          조용히 쌓아오던 화약고에 불을 붙인 치명적인 성냥이었습니다.
-        </p>
-        
-        <div class="quote-box">
-          <p>"전등불이 유럽 전역에서 꺼지고 있다. 우리는 우리 생애에 그것이 다시 켜지는 것을 보지 못할 것이다."</p>
-          <p style="text-align:right; font-size:14px; margin-top:10px;">- 에드워드 그레이 (영국 외무장관, 1914년 전쟁 발발 직전)</p>
-        </div>
-
-        <h2>참호전: 낭만의 종언과 산업화된 죽음</h2>
-        <p>
-          당시 유럽의 청년들은 '크리스마스 전에는 끝날 것'이라는 낭만적인 환상을 품고 전선으로 향했습니다. 
-          그러나 그들을 기다린 것은 기관총, 독가스, 탱크로 무장한 차가운 산업화의 결과물이었습니다. 
-          서부 전선의 군인들은 축축하고 쥐가 들끓는 참호 속에 갇혀 수십만 명이 전사하면서도 
-          불과 몇 백 미터의 땅을 빼앗기 위해 무의미한 돌격을 반복해야 했습니다.
-        </p>
-        
-        <h2>권력 구조의 재편과 제국들의 몰락</h2>
-        <p>
-          1918년, 4년이 넘는 끔찍한 소모전 끝에 동맹국이 항복하며 전쟁은 막을 내립니다. 
-          이 전쟁은 단순한 영토 분쟁을 넘어 국제 정치의 권력 지형을 완전히 갈아엎었습니다. 
-          수백 년을 이어오던 러시아 로마노프 왕조, 오스트리아-헝가리 제국, 독일 제국, 그리고 
-          오스만 제국이 이 전쟁을 끝으로 역사 속으로 사라졌습니다.
-        </p>
-
-        <h2>불안한 평화와 중동의 불씨</h2>
-        <p>
-          베르사유 조약으로 평화가 찾아온 듯했지만, 패전국 독일에 부과된 가혹한 배상금은 
-          또 다른 거대한 복수극의 씨앗이 되었습니다. 또한 이 시기 영국이 중동 지역에서 맺은 
-          위험한 이중 계약과 밸푸어 선언 등은, 오늘날까지 이어지는 국제 정치의 깊은 상흔과 
-          분쟁의 불씨를 남겨두게 됩니다.
-        </p>
-      </article>
-    </main>
-  </div>
-
-  <div id="ww2" class="page-view">
-    <header class="article-header">
-      <p class="article-meta">Global Conflict · Archive</p>
-      <h1 class="article-main-title">제2차 세계대전</h1>
-      <p class="article-subtitle">인류 역사상 가장 거대하고 파괴적인 총력전, 그리고 새로운 세계 질서의 서막 (1939-1945)</p>
-    </header>
-
-    <main class="article-content-wrapper">
-      <article class="article-content">
-        <p class="dropcap">
-          제1차 세계대전이 끝난 지 불과 21년 후인 1939년 9월 1일, 
-          나치 독일이 폴란드를 침공하며 인류는 또다시 회복 불가능한 거대한 광기 속으로 빠져들었습니다. 
-          경제 대공황의 절망 속에서 피어난 파시즘과 전체주의는 전 세계를 피로 물들인 
-          가장 파괴적인 총력전(Total War)을 일으켰습니다.
-        </p>
-        
-        <div class="quote-box">
-          <p>"우리는 해변에서 싸울 것입니다, 우리는 상륙장에서 싸울 것입니다, 우리는 들판과 거리에서 싸울 것입니다, 우리는 언덕에서 싸울 것입니다. 우리는 결코 항복하지 않을 것입니다."</p>
-          <p style="text-align:right; font-size:14px; margin-top:10px;">- 윈스턴 처칠 (1940년 됭케르크 철수 이후 대국민 연설)</p>
-        </div>
-
-        <h2>전쟁의 참상과 홀로코스트</h2>
-        <p>
-          전장은 유럽의 눈 덮인 숲부터 북아프리카의 뜨거운 사막, 그리고 아시아와 태평양의 깊은 정글까지 
-          전 지구적으로 확대되었습니다. 무엇보다 이 전쟁이 남긴 가장 끔찍한 상흔은 '홀로코스트(Holocaust)'였습니다. 
-          특정 인종을 절멸시키기 위해 국가의 시스템이 조직적으로 개입한 이 비극은 
-          인간 본성의 바닥을 적나라하게 보여주었습니다.
-        </p>
-
-        <h2>원자폭탄과 냉전이라는 새로운 질서</h2>
-        <p>
-          1945년 8월, 일본 히로시마와 나가사키에 인류 최초의 원자폭탄이 투하되며 전쟁은 종식되었습니다. 
-          하지만 버섯구름이 걷힌 후 세상의 권력 지도는 다시 한번 거대하게 재편되었습니다. 
-          유럽 열강들이 몰락한 빈자리는 미국과 소련이라는 두 개의 거대한 초강대국이 차지하게 되었고, 
-          이는 이념의 장벽으로 세상을 양분한 '냉전(Cold War)' 시대의 개막을 알리는 신호탄이 되었습니다.
-        </p>
-      </article>
-    </main>
+    </div>
   </div>
 
   <footer>
-    <div style="font-family:'Cinzel', serif; font-size:24px; font-weight:900; letter-spacing:8px;">
-      ANN<span style="color:#b8922a;">A</span>LS
-    </div>
-    <p style="font-family:'Cormorant Garamond', serif; font-size:14px; margin-top:10px; color:rgba(242,234,216,0.4);">
-      역사 속 인물들의 삶과 세계의 흐름을 깊이 있게 기록하는 아카이브입니다.
-    </p>
+    <div style="font-family:'Cinzel', serif; font-size:24px; font-weight:900; letter-spacing:8px;">ANN<span>A</span>LS</div>
+    <p style="font-size:12px; margin-top:15px; color:rgba(242,234,216,0.3);">© 2026 ANNALS. All rights reserved.</p>
   </footer>
 
-  <div class="footer-bottom">
-    © 2026 ANNALS. All rights reserved.
-  </div>
-
   <script>
-    function showView(viewId) {
-      // 모든 화면을 숨김
-      const views = document.querySelectorAll('.page-view');
-      views.forEach(view => view.classList.remove('active'));
-      
-      // 선택한 화면만 표시
-      document.getElementById(viewId).classList.add('active');
-      window.scrollTo(0, 0);
-    }
-  </script>
+    let archives = JSON.parse(localStorage.getItem('annals_data') || '[]');
+    let editId = null;
 
+    // 초기 데이터 예시
+    if(archives.length === 0) {
+      archives = [{
+        id: 1, 
+        category: 'European History', 
+        title: '조지 6세', 
+        content: '왕이 될 운명이 아니었던 남자. 본래 내성적이었으나 형 에드워드 8세의 퇴위로 갑작스럽게 왕위에 올랐습니다. 심한 말더듬이를 극복하고 제2차 세계대전 중 런던 폭격 속에서도 버킹엄 궁을 지키며 영국 국민들의 정신적 지주가 되었습니다.',
+        img: ''
+      }];
+      localStorage.setItem('annals_data', JSON.stringify(archives));
+    }
+
+    function render() {
+      const list = document.getElementById('archiveList');
+      list.innerHTML = '';
+      archives.forEach(a => {
+        list.innerHTML += `
+          <div class="archive-card">
+            <p class="meta">${a.category}</p>
+            <h2 class="card-title">${a.title}</h2>
+            <div class="content-preview">${a.content}</div>
+            ${a.img ? `<div class="photo-frame"><img src="${a.img}" onerror="this.style.display='none'"></div>` : ''}
+            <div class="card-actions">
+              <button class="btn-action" onclick="openModal(${a.id})">EDIT</button>
+              <button class="btn-action" style="color:var(--rust)" onclick="deleteArchive(${a.id})">DELETE</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function openModal(id = null) {
+      editId = id;
+      if(id) {
+        const a = archives.find(item => item.id === id);
+        document.getElementById('f-category').value = a.category;
+        document.getElementById('f-title').value = a.title;
+        document.getElementById('f-content').value = a.content;
+        document.getElementById('f-img').value = a.img || '';
+        document.getElementById('modalTitle').innerText = "EDIT RECORD";
+      } else {
+        document.getElementById('f-category').value = '';
+        document.getElementById('f-title').value = '';
+        document.getElementById('f-content').value = '';
+        document.getElementById('f-img').value = '';
+        document.getElementById('modalTitle').innerText = "NEW RECORD";
+      }
+      document.getElementById('modalBg').classList.add('open');
+    }
+
+    function closeModal() { document.getElementById('modalBg').classList.remove('open'); }
+
+    function handleSave() {
+      const category = document.getElementById('f-category').value;
+      const title = document.getElementById('f-title').value;
+      const content = document.getElementById('f-content').value;
+      const img = document.getElementById('f-img').value;
+
+      if(!title || !content) return alert("제목과 기록 내용은 필수입니다.");
+
+      const data = { id: editId || Date.now(), category, title, content, img };
+
+      if(editId) {
+        const idx = archives.findIndex(a => a.id === editId);
+        archives[idx] = data;
+      } else {
+        archives.unshift(data);
+      }
+      
+      localStorage.setItem('annals_data', JSON.stringify(archives));
+      render();
+      closeModal();
+    }
+
+    function deleteArchive(id) {
+      if(!confirm("이 기록을 영구히 삭제하시겠습니까?")) return;
+      archives = archives.filter(a => a.id !== id);
+      localStorage.setItem('annals_data', JSON.stringify(archives));
+      render();
+    }
+
+    render();
+  </script>
 </body>
 </html>
