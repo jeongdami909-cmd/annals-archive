@@ -7,12 +7,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Nanum+Myeongjo:wght@400;700&family=IM+Fell+English:ital@0;1&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
   <style>
     :root {
-      --ink: #1a1a1a;        /* 블랙 */
-      --paper: #fff5f7;      /* 옅은 핑크 배경 */
-      --gold: #b8860b;       /* 골드 포인트 */
-      --rose: #e6b3b3;       /* 경계선 핑크 */
-      --warm-white: #ffffff; /* 카드 내부 백색 */
-      --rust: #8b3a2a;       /* 경고/삭제 색상 */
+      --ink: #1a1a1a;        
+      --paper: #fff5f7;      
+      --gold: #b8860b;       
+      --rose: #e6b3b3;       
+      --warm-white: #ffffff; 
+      --rust: #8b3a2a;       
       --overlay: rgba(0, 0, 0, 0.85);
     }
 
@@ -21,30 +21,40 @@
 
     /* NAVIGATION */
     nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 20px 40px; background: rgba(255, 245, 247, 0.95); backdrop-filter: blur(10px); border-bottom: 2px solid var(--rose); }
-    .nav-logo { font-family: 'Cinzel', serif; font-size: 24px; font-weight: 900; letter-spacing: 7px; color: var(--ink); text-decoration: none; }
+    .nav-logo { font-family: 'Cinzel', serif; font-size: 24px; font-weight: 900; letter-spacing: 7px; color: var(--ink); text-decoration: none; cursor: pointer; }
     .nav-logo span { color: var(--gold); }
 
     /* HEADER */
     .header-section { padding: 140px 20px 60px; text-align: center; background: linear-gradient(to bottom, var(--paper), #fff); }
     .main-title { font-family: 'Cinzel', serif; font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 900; letter-spacing: 12px; margin-bottom: 15px; color: var(--ink); }
 
-    /* FILTER BAR */
+    /* MAIN FILTER BAR (대륙) */
     .filter-bar { padding: 20px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; background: #fff; border-bottom: 1px solid var(--rose); }
     .tag-btn { background: none; border: none; color: #777; font-family: 'Cinzel', serif; font-size: 11px; letter-spacing: 2px; cursor: pointer; padding: 5px 12px; }
     .tag-btn.active { color: var(--gold); font-weight: 700; border-bottom: 2px solid var(--gold); }
 
+    /* SUB FILTER BAR (국가 하위 버튼) */
+    .sub-filter-bar { display: none; padding: 15px 20px; justify-content: center; flex-wrap: wrap; gap: 8px; background: var(--paper); border-bottom: 1px solid var(--rose); }
+    .sub-filter-bar.open { display: flex; animation: fadeIn 0.3s ease; }
+    .sub-tag-btn { background: #fff; border: 1px solid var(--rose); color: #666; font-family: 'Nanum Myeongjo', serif; font-size: 12px; font-weight: 700; padding: 6px 16px; border-radius: 20px; cursor: pointer; transition: 0.2s; }
+    .sub-tag-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .sub-tag-btn.active { background: var(--gold); color: #fff; border-color: var(--gold); }
+
     /* 메인 컨테이너 */
     .article-container { max-width: 850px; margin: 0 auto; padding: 40px 20px 100px; }
 
-    /* 글쓰기 게시판 (화면에 항상 노출) */
+    /* 글쓰기 게시판 (항상 노출) */
     .write-board { background: var(--warm-white); border: 2px solid var(--gold); padding: 35px; margin-bottom: 60px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
     .write-board h2 { font-family: 'Cinzel', serif; font-size: 20px; color: var(--ink); margin-bottom: 25px; text-align: center; letter-spacing: 4px; }
     
+    .input-group { display: flex; gap: 15px; margin-bottom: 25px; }
+    .input-group > div { flex: 1; }
+    
     label { display: block; font-family: 'Cinzel', serif; font-size: 11px; color: var(--gold); margin-bottom: 8px; letter-spacing: 2px; font-weight: 700; }
     input, select, textarea { width: 100%; padding: 15px; margin-bottom: 25px; border: 1px solid var(--rose); background: #fff; font-family: 'Nanum Myeongjo', serif; font-size: 16px; outline: none; }
+    .input-group input, .input-group select { margin-bottom: 0; }
     textarea:focus, input:focus { border-color: var(--gold); }
     
-    /* 화면용 글쓰기 칸 높이 (너무 길면 스크롤이 힘드니 적당히 길게) */
     .write-board textarea { min-height: 250px; line-height: 2; resize: vertical; }
 
     .btn-submit { background: var(--ink); color: #fff; border: 1px solid var(--gold); width: 100%; padding: 18px; font-family: 'Cinzel', serif; font-size: 13px; letter-spacing: 3px; cursor: pointer; transition: 0.3s; }
@@ -53,9 +63,11 @@
     /* 기록된 카드들 */
     .archive-card { background: var(--warm-white); border: 1px solid var(--rose); padding: 40px; margin-bottom: 80px; box-shadow: 0 10px 30px rgba(230, 179, 179, 0.2); }
     
-    /* 수정/삭제 버튼 상단 고정 */
+    /* 카드 상단 헤더 */
     .card-top-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid var(--paper); padding-bottom: 15px; }
     .card-meta { font-family: 'Cinzel', serif; font-size: 11px; color: var(--gold); letter-spacing: 3px; }
+    .card-country { font-family: 'Nanum Myeongjo', serif; font-weight: 700; color: #555; font-size: 14px; margin-left: 8px; }
+    
     .top-actions { display: flex; gap: 10px; }
     .btn-top { background: var(--ink); color: #fff; border: none; padding: 8px 16px; font-family: 'Cinzel', serif; font-size: 10px; cursor: pointer; letter-spacing: 1.5px; }
     .btn-top.del { background: var(--rust); }
@@ -63,12 +75,11 @@
     .card-title { font-size: 32px; font-weight: 700; margin-bottom: 25px; line-height: 1.3; }
     .content-text { font-size: 17.5px; line-height: 2.2; text-align: justify; white-space: pre-wrap; color: #333; }
     
-    /* 사진 프레임 */
     .photo-frame { margin: 40px auto 0; padding: 12px 12px 40px; background: #fff; border: 1px solid var(--rose); max-width: 450px; text-align: center; }
     .photo-frame img { width: 100%; display: block; filter: sepia(0.1); }
     .photo-frame::after { content: 'Archived Photograph'; display: block; margin-top: 15px; font-family: 'IM Fell English', serif; font-style: italic; color: #999; font-size: 13px; }
 
-    /* EDIT MODAL (수정할 때만 뜨는 창) */
+    /* EDIT MODAL */
     .modal-bg { display: none; position: fixed; inset: 0; background: var(--overlay); z-index: 1000; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(5px); }
     .modal-bg.open { display: flex; }
     .modal { background: var(--paper); width: 100%; max-width: 800px; padding: 40px; border: 2px solid var(--gold); max-height: 90vh; overflow-y: auto; }
@@ -77,13 +88,14 @@
     .modal-btns button { flex: 1; padding: 18px; border: none; cursor: pointer; font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 2px; }
     .cancel-btn { background: #777; color: white; }
 
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
     footer { background: var(--ink); color: var(--paper); padding: 80px 20px; text-align: center; font-family: 'Cinzel', serif; letter-spacing: 8px; border-top: 3px solid var(--gold); }
   </style>
 </head>
 <body>
 
   <nav>
-    <a href="#" class="nav-logo" onclick="filterBy('전체', document.querySelector('.tag-btn'))">ANN<span>A</span>LS</a>
+    <a href="#" class="nav-logo" onclick="filterMain('전체', document.querySelector('.tag-btn'))">ANN<span>A</span>LS</a>
   </nav>
 
   <header class="header-section">
@@ -92,31 +104,42 @@
   </header>
 
   <div class="filter-bar">
-    <button class="tag-btn active" onclick="filterBy('전체', this)">ALL</button>
-    <button class="tag-btn" onclick="filterBy('아시아', this)">ASIA</button>
-    <button class="tag-btn" onclick="filterBy('유럽', this)">EUROPE</button>
-    <button class="tag-btn" onclick="filterBy('미국', this)">USA</button>
-    <button class="tag-btn" onclick="filterBy('아프리카', this)">AFRICA</button>
-    <button class="tag-btn" onclick="filterBy('중동', this)">MIDDLE EAST</button>
+    <button class="tag-btn active" onclick="filterMain('전체', this)">ALL</button>
+    <button class="tag-btn" onclick="filterMain('아시아', this)">ASIA</button>
+    <button class="tag-btn" onclick="filterMain('유럽', this)">EUROPE</button>
+    <button class="tag-btn" onclick="filterMain('아메리카', this)">AMERICA</button>
+    <button class="tag-btn" onclick="filterMain('아프리카', this)">AFRICA</button>
+    <button class="tag-btn" onclick="filterMain('중동', this)">MIDDLE EAST</button>
   </div>
+  
+  <div class="sub-filter-bar" id="subFilterBar"></div>
 
   <main class="article-container">
     
     <div class="write-board">
       <h2>ADD NEW CHRONICLE</h2>
-      <label>REGION</label>
-      <select id="new-region">
-        <option value="아시아">ASIA (아시아)</option>
-        <option value="유럽">EUROPE (유럽)</option>
-        <option value="미국">USA (미국)</option>
-        <option value="아프리카">AFRICA (아프리카)</option>
-        <option value="중동">MIDDLE EAST (중동)</option>
-      </select>
       
-      <label>TITLE</label>
+      <div class="input-group">
+        <div>
+          <label>REGION (대륙)</label>
+          <select id="new-region">
+            <option value="아시아">ASIA (아시아)</option>
+            <option value="유럽">EUROPE (유럽)</option>
+            <option value="아메리카">AMERICA (아메리카)</option>
+            <option value="아프리카">AFRICA (아프리카)</option>
+            <option value="중동">MIDDLE EAST (중동)</option>
+          </select>
+        </div>
+        <div>
+          <label>COUNTRY (국가)</label>
+          <input type="text" id="new-country" placeholder="예: 영국, 로마 제국">
+        </div>
+      </div>
+      
+      <label>TITLE (인물 혹은 사건)</label>
       <input type="text" id="new-title" placeholder="인물 혹은 사건명을 입력하세요">
       
-      <label>CHRONICLE</label>
+      <label>CHRONICLE (역사 기록)</label>
       <textarea id="new-content" placeholder="이곳에 역사의 흐름을 기록하세요."></textarea>
       
       <label>IMAGE URL (사진 링크)</label>
@@ -132,14 +155,24 @@
   <div class="modal-bg" id="modalBg">
     <div class="modal">
       <h2 style="font-family:'Cinzel', serif; text-align:center; margin-bottom:25px; color:var(--ink);">EDIT RECORD</h2>
-      <label>REGION</label>
-      <select id="edit-region">
-        <option value="아시아">ASIA</option>
-        <option value="유럽">EUROPE</option>
-        <option value="미국">USA</option>
-        <option value="아프리카">AFRICA</option>
-        <option value="중동">MIDDLE EAST</option>
-      </select>
+      
+      <div class="input-group">
+        <div>
+          <label>REGION</label>
+          <select id="edit-region">
+            <option value="아시아">ASIA</option>
+            <option value="유럽">EUROPE</option>
+            <option value="아메리카">AMERICA</option>
+            <option value="아프리카">AFRICA</option>
+            <option value="중동">MIDDLE EAST</option>
+          </select>
+        </div>
+        <div>
+          <label>COUNTRY</label>
+          <input type="text" id="edit-country">
+        </div>
+      </div>
+
       <label>TITLE</label><input type="text" id="edit-title">
       <label>CHRONICLE</label><textarea id="edit-content"></textarea>
       <label>IMAGE URL</label><input type="text" id="edit-img">
@@ -151,39 +184,70 @@
   </div>
 
   <script>
-    // 💡 과거에 작성하셨던 데이터 복구 로직 (이전에 쓰신 글이 있다면 살아납니다!)
-    let pastData1 = JSON.parse(localStorage.getItem('annals_fixed_v1') || '[]');
-    let pastData2 = JSON.parse(localStorage.getItem('annals_premium_final') || '[]');
-    let pastData3 = JSON.parse(localStorage.getItem('annals_pink_v1') || '[]');
-    let currentData = JSON.parse(localStorage.getItem('annals_data_master') || '[]');
+    // 대륙별 주요 국가 매핑 데이터
+    const countryMap = {
+      '아시아': ['한국', '중국', '일본', '인도', '베트남'],
+      '유럽': ['영국', '프랑스', '독일', '러시아', '이탈리아', '스페인'],
+      '아메리카': ['미국', '캐나다', '멕시코', '브라질', '아르헨티나'],
+      '아프리카': ['이집트', '남아프리카 공화국', '에티오피아'],
+      '중동': ['튀르키예', '사우디아라비아', '이란', '이스라엘']
+    };
 
-    // 예전 데이터들을 영혼까지 끌어모아 합칩니다
+    let currentRegion = '전체';
+    let currentCountry = '전체';
+
+    // 데이터 복구 및 초기화
+    let currentData = JSON.parse(localStorage.getItem('annals_data_master') || '[]');
     if(currentData.length === 0) {
-        let combined = [...pastData1, ...pastData2, ...pastData3];
-        // 중복 제거 및 아이디 정리
-        let unique = combined.filter((v,i,a)=>a.findIndex(t=>(t.title === v.title))===i);
-        if(unique.length > 0) {
-            currentData = unique;
-        } else {
-            // 진짜 아무것도 없으면 예시 하나만 넣기
-            currentData = [{id: 1, region: '중동', title: '벨푸어 선언 (1917)', content: '영국 외무장관 아서 밸푸어가 유대인 국가 건설 지지를 표명한 사건입니다.', img: ''}];
-        }
+        currentData = [
+            {id: 1, region: '유럽', country: '영국', title: '조지 6세', content: '왕이 될 운명이 아니었던 남자, 말더듬이를 극복한 인간적인 군주.\n\n그는 화려한 스포트라이트를 받는 것을 두려워하는 내성적인 차남이었습니다...', img: ''},
+            {id: 2, region: '중동', country: '영국', title: '벨푸어 선언 (1917)', content: '영국 외무장관 아서 밸푸어가 유대인 국가 건설 지지를 표명한 사건입니다. 현대 중동 분쟁의 뼈아픈 씨앗이 되었습니다.', img: ''}
+        ];
         localStorage.setItem('annals_data_master', JSON.stringify(currentData));
     }
     
     let archives = currentData;
     let editTargetId = null;
 
-    function render(filter = '전체') {
+    function renderSubFilters() {
+      const subBar = document.getElementById('subFilterBar');
+      if(currentRegion === '전체') {
+        subBar.classList.remove('open');
+        return;
+      }
+      
+      subBar.classList.add('open');
+      const countries = countryMap[currentRegion] || [];
+      
+      let html = `<button class="sub-tag-btn ${currentCountry === '전체' ? 'active' : ''}" onclick="filterSub('전체', this)">전체 국가</button>`;
+      
+      countries.forEach(country => {
+        const isActive = currentCountry === country ? 'active' : '';
+        html += `<button class="sub-tag-btn ${isActive}" onclick="filterSub('${country}', this)">${country}</button>`;
+      });
+      
+      subBar.innerHTML = html;
+    }
+
+    function renderList() {
       const list = document.getElementById('archiveList');
       list.innerHTML = '';
-      const filtered = filter === '전체' ? archives : archives.filter(a => a.region === filter);
+      
+      let filtered = archives;
+      if(currentRegion !== '전체') {
+        filtered = filtered.filter(a => a.region === currentRegion);
+      }
+      if(currentCountry !== '전체') {
+        // 입력한 국가명에 해당 단어가 포함되어 있으면 필터링
+        filtered = filtered.filter(a => a.country && a.country.includes(currentCountry));
+      }
       
       filtered.forEach(a => {
+        const countryDisplay = a.country ? `<span class="card-country">/ ${a.country}</span>` : '';
         list.innerHTML += `
           <div class="archive-card">
             <div class="card-top-header">
-                <p class="card-meta">${a.region} · CHRONICLE</p>
+                <p class="card-meta">${a.region} ${countryDisplay}</p>
                 <div class="top-actions">
                     <button class="btn-top" onclick="openEditModal(${a.id})">EDIT (수정)</button>
                     <button class="btn-top del" onclick="deleteArchive(${a.id})">ERASE (삭제)</button>
@@ -196,7 +260,26 @@
       });
     }
 
-    // 새 글 작성 (메인 화면)
+    function filterMain(region, btn) {
+      document.querySelectorAll('.filter-bar .tag-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      
+      currentRegion = region;
+      currentCountry = '전체'; // 대륙을 바꾸면 국가는 전체로 초기화
+      
+      renderSubFilters();
+      renderList();
+    }
+
+    function filterSub(country, btn) {
+      document.querySelectorAll('.sub-filter-bar .sub-tag-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      
+      currentCountry = country;
+      renderList();
+    }
+
+    // 새 글 작성
     function handleSaveNew() {
       const title = document.getElementById('new-title').value;
       const content = document.getElementById('new-content').value;
@@ -206,6 +289,7 @@
       const data = { 
         id: Date.now(), 
         region: document.getElementById('new-region').value, 
+        country: document.getElementById('new-country').value,
         title: title, 
         content: content, 
         img: document.getElementById('new-img').value 
@@ -214,19 +298,19 @@
       archives.unshift(data);
       localStorage.setItem('annals_data_master', JSON.stringify(archives));
       
-      // 작성 후 칸 비우기
       document.getElementById('new-title').value = '';
       document.getElementById('new-content').value = '';
+      document.getElementById('new-country').value = '';
       document.getElementById('new-img').value = '';
       
-      render();
+      renderList();
     }
 
-    // 수정 모달 열기
     function openEditModal(id) {
       editTargetId = id;
       const a = archives.find(i => i.id === id);
       document.getElementById('edit-region').value = a.region;
+      document.getElementById('edit-country').value = a.country || '';
       document.getElementById('edit-title').value = a.title;
       document.getElementById('edit-content').value = a.content;
       document.getElementById('edit-img').value = a.img || '';
@@ -235,11 +319,11 @@
 
     function closeModal() { document.getElementById('modalBg').classList.remove('open'); }
 
-    // 수정된 글 저장
     function handleSaveEdit() {
       const data = { 
         id: editTargetId, 
         region: document.getElementById('edit-region').value, 
+        country: document.getElementById('edit-country').value,
         title: document.getElementById('edit-title').value, 
         content: document.getElementById('edit-content').value, 
         img: document.getElementById('edit-img').value 
@@ -249,24 +333,19 @@
       archives[idx] = data;
       
       localStorage.setItem('annals_data_master', JSON.stringify(archives));
-      render(); closeModal();
+      renderList(); closeModal();
     }
 
-    // 삭제 기능
     function deleteArchive(id) { 
       if(confirm("이 기록을 영구히 삭제할까요?")) { 
         archives = archives.filter(a => a.id !== id); 
         localStorage.setItem('annals_data_master', JSON.stringify(archives)); 
-        render(); 
+        renderList(); 
       } 
     }
 
-    function filterBy(region, btn) {
-      document.querySelectorAll('.tag-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active'); render(region);
-    }
-    
-    render();
+    // 초기 실행
+    renderList();
   </script>
 </body>
 </html>
