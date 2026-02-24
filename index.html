@@ -13,6 +13,12 @@
             --text-cream: #eaddcf; 
             --text-dark: #2c3032; 
             --accent-gold: #bda27e; 
+            
+            /* 💡 뷰어 설정을 위한 동적 변수 (기본값 설정) */
+            --post-font-size: 0.95rem;
+            --post-line-height: 1.8;
+            --post-padding-x: 25px;
+            --post-padding-y: 25px;
         }
 
         body { 
@@ -20,7 +26,7 @@
             font-family: 'Noto Serif KR', serif; 
             margin: 0; color: var(--text-dark); 
             -webkit-font-smoothing: antialiased;
-            padding-bottom: 80px;
+            padding-bottom: 100px;
         }
 
         .hero-section {
@@ -165,13 +171,15 @@
         .post-img-slot { width: 100%; height: 220px; background: rgba(0,0,0,0.2); overflow: hidden; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.2); font-size: 0.8rem; }
         .post-img { width: 100%; height: 100%; object-fit: cover; }
 
-        .post-content { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
+        /* 💡 뷰어 변수를 통해 여백이 동적으로 조절되는 콘텐츠 영역 */
+        .post-content { 
+            padding: var(--post-padding-y) var(--post-padding-x); 
+            flex-grow: 1; display: flex; flex-direction: column; 
+        }
         
-        /* 💡 카테고리와 읽기 버튼을 묶는 스타일 추가 */
         .meta-group { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
         .post-meta { font-size: 0.8rem; color: var(--accent-gold); font-family: 'Playfair Display', serif; text-transform: uppercase; letter-spacing: 1px; }
         
-        /* 💡 Annals에 어울리는 우아한 듣기 버튼 스타일 */
         .tts-btn {
             background: rgba(189, 162, 126, 0.1); border: 1px solid rgba(189, 162, 126, 0.4);
             color: var(--accent-gold); padding: 2px 8px; border-radius: 4px;
@@ -179,8 +187,18 @@
         }
         .tts-btn:hover { background: var(--accent-gold); color: var(--text-dark); }
 
-        .post-title { font-family: 'Noto Serif KR', serif; font-size: 1.3rem; font-weight: 700; color: var(--text-cream); margin-bottom: 15px; line-height: 1.4; }
-        .post-text { font-size: 0.95rem; line-height: 1.8; color: #d0d5d8; white-space: pre-wrap; flex-grow: 1; margin-bottom: 20px; }
+        /* 💡 뷰어 변수를 통해 제목과 본문 글자 크기가 조절됨 */
+        .post-title { 
+            font-family: 'Noto Serif KR', serif; 
+            font-size: calc(var(--post-font-size) + 0.35rem); 
+            font-weight: 700; color: var(--text-cream); margin-bottom: 15px; line-height: 1.4; 
+        }
+        .post-text { 
+            font-size: var(--post-font-size); 
+            line-height: var(--post-line-height); 
+            color: #d0d5d8; white-space: pre-wrap; flex-grow: 1; margin-bottom: 20px; 
+        }
+        
         .post-date { font-size: 0.8rem; color: rgba(255,255,255,0.4); text-align: right; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; }
 
         .highlight {
@@ -190,6 +208,32 @@
             border-radius: 3px;
             font-weight: 700;
         }
+
+        /* 💡 Annals에 맞춘 플로팅 뷰어 버튼 (Aa) 및 모달 스타일 */
+        .fab-viewer {
+            position: fixed; bottom: 30px; right: 30px; width: 55px; height: 55px;
+            background: var(--card-slate); color: var(--accent-gold); 
+            border: 1px solid var(--accent-gold); border-radius: 50%; 
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3); font-family: 'Playfair Display', serif;
+            font-size: 1.2rem; font-weight: 700; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; z-index: 100; transition: transform 0.2s, background 0.3s;
+        }
+        .fab-viewer:hover { transform: scale(1.05); background: var(--accent-gold); color: var(--text-dark); }
+
+        .viewer-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(5px); }
+        .viewer-modal-overlay.open { display: flex; }
+        
+        /* 모달창도 Annals 분위기에 맞춤 */
+        .viewer-modal-content { 
+            background: var(--card-slate); width: 100%; max-width: 400px; padding: 35px; 
+            border-radius: 8px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
+            position: relative; border: 1px solid #717c82; color: var(--text-cream);
+        }
+        .v-close-btn { position: absolute; top: 15px; right: 20px; font-size: 1.8rem; cursor: pointer; color: var(--accent-gold); background: none; border: none; }
+        
+        .setting-group { margin-bottom: 25px; font-family: 'Noto Serif KR', serif; }
+        .setting-group label { display: flex; justify-content: space-between; font-size: 0.95rem; margin-bottom: 12px; }
+        .setting-group input[type="range"] { width: 100%; accent-color: var(--accent-gold); cursor: pointer; }
     </style>
 </head>
 <body>
@@ -257,20 +301,85 @@
             </div>
     </div>
 
+    <button class="fab-viewer" onclick="openViewerModal()" title="뷰어 설정">Aa</button>
+
+    <div class="viewer-modal-overlay" id="viewerModal">
+        <div class="viewer-modal-content">
+            <button class="v-close-btn" onclick="closeViewerModal()">×</button>
+            <h3 style="margin-top:0; margin-bottom: 25px; font-size:1.3rem; color: var(--accent-gold); font-family: 'Playfair Display', serif;">Viewer Settings</h3>
+            
+            <div class="setting-group">
+                <label><span>글자 크기</span></label>
+                <input type="range" id="v-fontSize" min="0.8" max="1.5" step="0.05" oninput="updateViewerSettings()">
+            </div>
+            <div class="setting-group">
+                <label><span>문단 간격</span></label>
+                <input type="range" id="v-lineHeight" min="1.4" max="2.4" step="0.1" oninput="updateViewerSettings()">
+            </div>
+            <div class="setting-group">
+                <label><span>좌우 여백</span></label>
+                <input type="range" id="v-paddingX" min="15" max="40" step="1" oninput="updateViewerSettings()">
+            </div>
+            <div class="setting-group">
+                <label><span>상하 여백</span></label>
+                <input type="range" id="v-paddingY" min="15" max="45" step="1" oninput="updateViewerSettings()">
+            </div>
+            
+            <button class="action-btn" style="width:100%; margin-top:10px; padding:12px; font-size:1rem;" onclick="resetViewerSettings()">기본값 복구</button>
+        </div>
+    </div>
+
     <script>
+        // 💡 뷰어 설정 관리 로직
+        const defaultViewer = { fontSize: 0.95, lineHeight: 1.8, paddingX: 25, paddingY: 25 };
+        let viewerSettings = JSON.parse(localStorage.getItem('annalsViewerSettings')) || defaultViewer;
+
+        function applyViewerSettings() {
+            document.documentElement.style.setProperty('--post-font-size', viewerSettings.fontSize + 'rem');
+            document.documentElement.style.setProperty('--post-line-height', viewerSettings.lineHeight);
+            document.documentElement.style.setProperty('--post-padding-x', viewerSettings.paddingX + 'px');
+            document.documentElement.style.setProperty('--post-padding-y', viewerSettings.paddingY + 'px');
+            
+            document.getElementById('v-fontSize').value = viewerSettings.fontSize;
+            document.getElementById('v-lineHeight').value = viewerSettings.lineHeight;
+            document.getElementById('v-paddingX').value = viewerSettings.paddingX;
+            document.getElementById('v-paddingY').value = viewerSettings.paddingY;
+        }
+
+        function updateViewerSettings() {
+            viewerSettings = {
+                fontSize: document.getElementById('v-fontSize').value,
+                lineHeight: document.getElementById('v-lineHeight').value,
+                paddingX: document.getElementById('v-paddingX').value,
+                paddingY: document.getElementById('v-paddingY').value
+            };
+            localStorage.setItem('annalsViewerSettings', JSON.stringify(viewerSettings));
+            applyViewerSettings();
+        }
+
+        function resetViewerSettings() {
+            viewerSettings = { ...defaultViewer };
+            localStorage.setItem('annalsViewerSettings', JSON.stringify(viewerSettings));
+            applyViewerSettings();
+        }
+
+        function openViewerModal() { document.getElementById('viewerModal').classList.add('open'); }
+        function closeViewerModal() { document.getElementById('viewerModal').classList.remove('open'); }
+
+        applyViewerSettings();
+
+
+        // === 기존 Annals 기능 ===
         let currentFilter = '전체'; 
         let selectedImg = "";
         let editIndex = -1;
-        let currentSpeakingIndex = -1; // 💡 재생 중인 음성 인덱스 추적
+        let currentSpeakingIndex = -1; 
 
         function executeSearch() {
             renderRecords(); 
-            
             setTimeout(() => {
                 const board = document.getElementById('boardGrid');
-                if(board) {
-                    board.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+                if(board) { board.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
             }, 100);
         }
 
@@ -311,8 +420,6 @@
             btnElement.classList.add('active');
             
             document.getElementById('localSearchInput').value = ''; 
-            
-            // 💡 탭 이동 시 음성 정지
             if(window.speechSynthesis.speaking) window.speechSynthesis.cancel();
             
             renderRecords();
@@ -386,7 +493,6 @@
             return text.replace(regex, '<span class="highlight">$1</span>');
         }
 
-        // 💡 텍스트 음성 변환 (TTS) 기능
         function toggleTTS(index) {
             if (window.speechSynthesis.speaking) {
                 window.speechSynthesis.cancel();
