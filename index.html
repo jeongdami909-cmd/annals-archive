@@ -135,7 +135,6 @@
         }
         .btn-save:hover { background: #a68c68; }
 
-        /* 게시판 및 결과 없음 메시지 */
         .board-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 30px; scroll-margin-top: 20px; }
         
         .no-results {
@@ -171,6 +170,15 @@
         .post-title { font-family: 'Noto Serif KR', serif; font-size: 1.3rem; font-weight: 700; color: var(--text-cream); margin-bottom: 15px; line-height: 1.4; }
         .post-text { font-size: 0.95rem; line-height: 1.8; color: #d0d5d8; white-space: pre-wrap; flex-grow: 1; margin-bottom: 20px; }
         .post-date { font-size: 0.8rem; color: rgba(255,255,255,0.4); text-align: right; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; }
+
+        /* 💡 검색어 형광펜(Highlight) 스타일 추가 */
+        .highlight {
+            background-color: var(--accent-gold); /* 황금색 배경 */
+            color: var(--text-dark); /* 짙은 글씨체 */
+            padding: 0 4px;
+            border-radius: 3px;
+            font-weight: 700;
+        }
     </style>
 </head>
 <body>
@@ -243,11 +251,9 @@
         let selectedImg = "";
         let editIndex = -1;
 
-        // 💡 엔터키 또는 돋보기 버튼을 눌렀을 때 실행되는 통합 검색 함수
         function executeSearch() {
-            renderRecords(); // 필터링해서 화면에 그리기
+            renderRecords(); 
             
-            // 스마트폰 화면에서 검색 결과(게시판)가 있는 곳으로 부드럽게 스크롤 이동
             setTimeout(() => {
                 const board = document.getElementById('boardGrid');
                 if(board) {
@@ -292,7 +298,7 @@
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
             btnElement.classList.add('active');
             
-            document.getElementById('localSearchInput').value = ''; // 탭 이동 시 검색어 초기화
+            document.getElementById('localSearchInput').value = ''; 
             renderRecords();
         }
 
@@ -358,13 +364,21 @@
             }
         }
 
+        // 💡 텍스트에 형광펜을 칠해주는 함수
+        function highlightKeyword(text, keyword) {
+            if (!keyword) return text;
+            // 정규식을 사용해서 키워드와 일치하는 부분을 <span class="highlight">로 감싸줍니다.
+            const regex = new RegExp(`(${keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+            return text.replace(regex, '<span class="highlight">$1</span>');
+        }
+
         function renderRecords() {
             const board = document.getElementById('boardGrid'); 
             board.innerHTML = '';
             const records = JSON.parse(localStorage.getItem('annals_history_data') || '[]');
             
             const searchQuery = document.getElementById('localSearchInput').value.toLowerCase().trim();
-            let matchCount = 0; // 검색된 결과 수 세기
+            let matchCount = 0; 
             
             records.forEach((r, index) => {
                 if(currentFilter !== '전체' && r.continent !== currentFilter) return;
@@ -375,8 +389,12 @@
                     if(!titleMatch && !contentMatch) return;
                 }
                 
-                matchCount++; // 일치하는 기록이 있으면 카운트 올리기
+                matchCount++; 
                 
+                // 💡 제목과 내용에 하이라이트 함수 적용
+                const displayTitle = highlightKeyword(r.title, searchQuery);
+                const displayContent = highlightKeyword(r.content, searchQuery);
+
                 const card = document.createElement('div');
                 card.className = 'post-card';
                 card.innerHTML = `
@@ -389,15 +407,14 @@
                     </div>
                     <div class="post-content">
                         <div class="post-meta">${r.continent}</div>
-                        <div class="post-title">${r.title}</div>
-                        <div class="post-text">${r.content}</div>
+                        <div class="post-title">${displayTitle}</div>
+                        <div class="post-text">${displayContent}</div>
                         <div class="post-date">${r.date}</div>
                     </div>
                 `;
                 board.appendChild(card);
             });
 
-            // 💡 검색 결과가 0개일 때 안내 메시지 띄우기
             if (searchQuery && matchCount === 0) {
                 board.innerHTML = `<div class="no-results">"${searchQuery}"에 대한 역사적 기록을 찾을 수 없습니다.</div>`;
             }
