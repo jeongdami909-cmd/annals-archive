@@ -14,7 +14,7 @@
             --text-dark: #2c3032; 
             --accent-gold: #bda27e; 
             
-            /* 💡 뷰어 설정을 위한 동적 변수 (기본값 설정) */
+            /* 뷰어 설정을 위한 동적 변수 */
             --post-font-size: 0.95rem;
             --post-line-height: 1.8;
             --post-padding-x: 25px;
@@ -171,7 +171,7 @@
         .post-img-slot { width: 100%; height: 220px; background: rgba(0,0,0,0.2); overflow: hidden; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.2); font-size: 0.8rem; }
         .post-img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* 💡 뷰어 변수를 통해 여백이 동적으로 조절되는 콘텐츠 영역 */
+        /* 뷰어 변수를 통해 여백이 조절됨 */
         .post-content { 
             padding: var(--post-padding-y) var(--post-padding-x); 
             flex-grow: 1; display: flex; flex-direction: column; 
@@ -187,7 +187,7 @@
         }
         .tts-btn:hover { background: var(--accent-gold); color: var(--text-dark); }
 
-        /* 💡 뷰어 변수를 통해 제목과 본문 글자 크기가 조절됨 */
+        /* 뷰어 변수를 통해 제목과 본문 글자 크기가 조절됨 */
         .post-title { 
             font-family: 'Noto Serif KR', serif; 
             font-size: calc(var(--post-font-size) + 0.35rem); 
@@ -209,7 +209,7 @@
             font-weight: 700;
         }
 
-        /* 💡 Annals에 맞춘 플로팅 뷰어 버튼 (Aa) 및 모달 스타일 */
+        /* 뷰어 플로팅 버튼 */
         .fab-viewer {
             position: fixed; bottom: 30px; right: 30px; width: 55px; height: 55px;
             background: var(--card-slate); color: var(--accent-gold); 
@@ -220,20 +220,31 @@
         }
         .fab-viewer:hover { transform: scale(1.05); background: var(--accent-gold); color: var(--text-dark); }
 
+        /* 💡 뷰어 설정 모달창 (음성 설정 포함) */
         .viewer-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(5px); }
         .viewer-modal-overlay.open { display: flex; }
         
-        /* 모달창도 Annals 분위기에 맞춤 */
         .viewer-modal-content { 
-            background: var(--card-slate); width: 100%; max-width: 400px; padding: 35px; 
+            background: var(--card-slate); width: 100%; max-width: 400px; padding: 30px; 
             border-radius: 8px; box-shadow: 0 20px 50px rgba(0,0,0,0.5); 
             position: relative; border: 1px solid #717c82; color: var(--text-cream);
+            max-height: 90vh; overflow-y: auto;
         }
         .v-close-btn { position: absolute; top: 15px; right: 20px; font-size: 1.8rem; cursor: pointer; color: var(--accent-gold); background: none; border: none; }
         
-        .setting-group { margin-bottom: 25px; font-family: 'Noto Serif KR', serif; }
+        .setting-group { margin-bottom: 22px; font-family: 'Noto Serif KR', serif; }
         .setting-group label { display: flex; justify-content: space-between; font-size: 0.95rem; margin-bottom: 12px; }
         .setting-group input[type="range"] { width: 100%; accent-color: var(--accent-gold); cursor: pointer; }
+        
+        /* 💡 테마에 맞춘 Select 디자인 */
+        .setting-group select { 
+            width: 100%; padding: 10px; border-radius: 4px; 
+            background: rgba(255,255,255,0.05); color: var(--text-cream); 
+            border: 1px solid rgba(234, 221, 207, 0.2); font-family: 'Noto Serif KR', serif; outline: none; cursor: pointer;
+        }
+        .setting-group select option { background: var(--card-slate); color: var(--text-cream); }
+
+        .settings-divider { border-top: 1px dashed rgba(234, 221, 207, 0.3); margin: 25px 0; }
     </style>
 </head>
 <body>
@@ -297,8 +308,7 @@
             <button class="btn-save" onclick="saveRecord()">기록 보존하기</button>
         </div>
 
-        <div class="board-grid" id="boardGrid">
-            </div>
+        <div class="board-grid" id="boardGrid"></div>
     </div>
 
     <button class="fab-viewer" onclick="openViewerModal()" title="뷰어 설정">Aa</button>
@@ -324,15 +334,51 @@
                 <label><span>상하 여백</span></label>
                 <input type="range" id="v-paddingY" min="15" max="45" step="1" oninput="updateViewerSettings()">
             </div>
+
+            <div class="settings-divider"></div>
+            <h3 style="margin-top:0; margin-bottom: 20px; font-size:1.1rem; color: var(--accent-gold); font-family: 'Playfair Display', serif;">TTS Settings</h3>
+
+            <div class="setting-group">
+                <label><span>목소리 종류</span></label>
+                <select id="v-ttsVoice" onchange="updateViewerSettings()">
+                    <option value="">기본 목소리</option>
+                </select>
+            </div>
+            <div class="setting-group">
+                <label><span>읽기 속도</span> <span id="val-ttsRate" style="color:var(--accent-gold);"></span></label>
+                <input type="range" id="v-ttsRate" min="0.5" max="2.0" step="0.1" oninput="updateViewerSettings()">
+            </div>
             
-            <button class="action-btn" style="width:100%; margin-top:10px; padding:12px; font-size:1rem;" onclick="resetViewerSettings()">기본값 복구</button>
+            <button class="action-btn" style="width:100%; margin-top:10px; padding:12px; font-size:1rem; background:rgba(255,255,255,0.05); color:var(--text-cream);" onclick="resetViewerSettings()">기본값 복구</button>
         </div>
     </div>
 
     <script>
-        // 💡 뷰어 설정 관리 로직
-        const defaultViewer = { fontSize: 0.95, lineHeight: 1.8, paddingX: 25, paddingY: 25 };
-        let viewerSettings = JSON.parse(localStorage.getItem('annalsViewerSettings')) || defaultViewer;
+        // --- 💡 뷰어 & 음성 설정 관리 로직 ---
+        const defaultViewer = { fontSize: 0.95, lineHeight: 1.8, paddingX: 25, paddingY: 25, ttsRate: 1.0, ttsVoice: '' };
+        let viewerSettings = JSON.parse(localStorage.getItem('annalsViewerSettingsV2')) || defaultViewer;
+
+        // 사용 가능한 목소리 목록 불러오기
+        let availableVoices = [];
+        function populateVoices() {
+            availableVoices = window.speechSynthesis.getVoices().filter(v => v.lang.includes('ko'));
+            const voiceSelect = document.getElementById('v-ttsVoice');
+            voiceSelect.innerHTML = '<option value="">기본 목소리 (시스템 기본)</option>';
+            
+            availableVoices.forEach(voice => {
+                const option = document.createElement('option');
+                option.value = voice.voiceURI;
+                
+                let displayName = voice.name;
+                if(displayName.toLowerCase().includes('female')) displayName += ' (여성)';
+                else if(displayName.toLowerCase().includes('male')) displayName += ' (남성)';
+                
+                option.textContent = displayName;
+                if (viewerSettings.ttsVoice === voice.voiceURI) option.selected = true;
+                voiceSelect.appendChild(option);
+            });
+        }
+        window.speechSynthesis.onvoiceschanged = populateVoices;
 
         function applyViewerSettings() {
             document.documentElement.style.setProperty('--post-font-size', viewerSettings.fontSize + 'rem');
@@ -344,6 +390,12 @@
             document.getElementById('v-lineHeight').value = viewerSettings.lineHeight;
             document.getElementById('v-paddingX').value = viewerSettings.paddingX;
             document.getElementById('v-paddingY').value = viewerSettings.paddingY;
+            document.getElementById('v-ttsRate').value = viewerSettings.ttsRate || 1.0;
+            
+            if(document.getElementById('val-ttsRate')) document.getElementById('val-ttsRate').textContent = (viewerSettings.ttsRate || 1.0) + 'x';
+            if(document.getElementById('v-ttsVoice').options.length > 1) {
+                document.getElementById('v-ttsVoice').value = viewerSettings.ttsVoice || '';
+            }
         }
 
         function updateViewerSettings() {
@@ -351,15 +403,17 @@
                 fontSize: document.getElementById('v-fontSize').value,
                 lineHeight: document.getElementById('v-lineHeight').value,
                 paddingX: document.getElementById('v-paddingX').value,
-                paddingY: document.getElementById('v-paddingY').value
+                paddingY: document.getElementById('v-paddingY').value,
+                ttsRate: document.getElementById('v-ttsRate').value,
+                ttsVoice: document.getElementById('v-ttsVoice').value
             };
-            localStorage.setItem('annalsViewerSettings', JSON.stringify(viewerSettings));
+            localStorage.setItem('annalsViewerSettingsV2', JSON.stringify(viewerSettings));
             applyViewerSettings();
         }
 
         function resetViewerSettings() {
             viewerSettings = { ...defaultViewer };
-            localStorage.setItem('annalsViewerSettings', JSON.stringify(viewerSettings));
+            localStorage.setItem('annalsViewerSettingsV2', JSON.stringify(viewerSettings));
             applyViewerSettings();
         }
 
@@ -493,6 +547,7 @@
             return text.replace(regex, '<span class="highlight">$1</span>');
         }
 
+        // 💡 디테일 설정이 적용된 TTS 기능
         function toggleTTS(index) {
             if (window.speechSynthesis.speaking) {
                 window.speechSynthesis.cancel();
@@ -509,7 +564,17 @@
             const utterance = new SpeechSynthesisUtterance(textToRead);
             
             utterance.lang = 'ko-KR'; 
-            utterance.rate = 0.95; 
+            
+            // 저장된 속도 적용
+            utterance.rate = parseFloat(viewerSettings.ttsRate) || 1.0; 
+            
+            // 저장된 목소리 적용
+            if (viewerSettings.ttsVoice) {
+                const selectedVoice = availableVoices.find(v => v.voiceURI === viewerSettings.ttsVoice);
+                if (selectedVoice) {
+                    utterance.voice = selectedVoice;
+                }
+            }
             
             utterance.onend = function() {
                 currentSpeakingIndex = -1;
